@@ -1,0 +1,438 @@
+{
+  "version": 1,
+  "values": [
+    {
+      "name": "legacy arc gap period",
+      "group": "charts",
+      "value": 4,
+      "unit": "segments",
+      "source": "ArchBar RVA0x4dfc8 / VA0x44dfc8 token060002d9 IL0249..026e: useInternal omits i%4==0 for i0..99. Setter0x4ba84/getter0x4bb34 share field04000321. ev_e367ac3c94a18d03619ef56ae892b942a255907ae9d7c39a85030939e771aa73; evidence/deep-arc-audit.json; src/original.rs ARC_GAP_PERIOD and arc_gap; legacy.rs imports and render.rs applies saved boolean."
+    },
+    {
+      "name": "legacy arc saved gap rule",
+      "group": "charts",
+      "value": "useInternal=true leaves slices0,4,...,96 in track color; false draws continuous filled extent",
+      "source": "ArchBar RVA0x4dfc8 IL01ea..02e0; full-circle background0x4dde4 IL008a..0098; nonwhite coordinate encoding0x4e5c8; field04000321; evidence/deep-arc-audit.json"
+    },
+    {
+      "name": "original network sampler positive minimum",
+      "group": "network",
+      "value": 0.1,
+      "unit": "MiB/s",
+      "source": "Sampler RVA0x113dc / VA0x4113dc token060000ce: down positive check IL0539..0548, comparison IL035b..036c, assignment IL010d..0117; up positive check IL028b..029a, comparison IL04e2..04f3, assignment IL05a9..05b3. Applies before controller0x12418 formatting. ev_e367ac3c94a18d03619ef56ae892b942a255907ae9d7c39a85030939e771aa73; evidence/deep-followthrough-audit.json; src/original.rs network_mibps called by src/model.rs"
+    },
+    {
+      "name": "original network sampler negative reset",
+      "group": "network",
+      "value": 0,
+      "unit": "MiB/s",
+      "source": "Sampler RVA0x113dc: negative download check IL045c..0489 -> zero assignment IL03a9..03b3; upload check IL0154..0181 -> IL00e0..00ea; zero inputs stay zero. ev_e367ac3c94a18d03619ef56ae892b942a255907ae9d7c39a85030939e771aa73; evidence/deep-followthrough-audit.json; src/original.rs network_mibps; imported fields only, shared raw readings retained"
+    },
+    {
+      "name": "original stored integer sensor presentation",
+      "group": "text",
+      "value": "HDDTemp, CpuFan, GpuFan and Volume/VulomeLoad use signed-int getters and int.ToString; default-zero-decimal imported text truncates fractional replacement-provider readings toward zero without a float32 intermediate",
+      "source": "Controller RVA0x12418 IL1456..146e, IL0f83..0f9b, IL18a8..18c0, IL1801..1819; getters0xece8/0xd2b0/0xd574/0xeb84, fields04000066/53/55/65; helper0x41960 IL015f conv.i4; ev_e367ac3c94a18d03619ef56ae892b942a255907ae9d7c39a85030939e771aa73; evidence/deep-rules-refresh-audit.json; src/render.rs"
+    },
+    {
+      "name": "stored integer field scope",
+      "group": "text",
+      "value": "Apply only to legacy_text fields with decimals=0 and finite signed-int-range readings; keep shared precise values, charts, explicit nonzero decimals and regular editor fields; only volume retains original99 ceiling among these four bindings",
+      "source": "Recovered int-field paths in controller0x12418 and postprocessor0x15b78; compatibility scope and out-of-range fallback are replacement decisions; MECHANICS.md and src/render.rs"
+    },
+    {
+      "name": "original CPU frequency text divisor",
+      "group": "text",
+      "value": 10000,
+      "source": "Controller RVA0x12418 / VA0x412418 IL163b..1644, getter0xdc54 field0400005a; fresh managed evidence ev_e367ac3c94a18d03619ef56ae892b942a255907ae9d7c39a85030939e771aa73; evidence/deep-formulas-audit.json"
+    },
+    {
+      "name": "original CPU frequency text round digits",
+      "group": "text",
+      "value": 2,
+      "source": "Controller RVA0x12418 IL1645..1646 Math.Round(double,int), midpoint to even; src/render.rs"
+    },
+    {
+      "name": "original CPU frequency text formula",
+      "group": "text",
+      "value": "q=truncate(Math.Round(double(float32(MHz))/10000,2)*100); q.ToString().PadLeft(2,zero).Insert(1,decimalPoint)",
+      "source": "Controller RVA0x12418 IL1632..167b; 2900MHz -> 2.8; src/render.rs; evidence/cpu-frequency-dotnet-fixtures.json"
+    },
+    {
+      "name": "original network display tenths multiplier",
+      "group": "text",
+      "value": 10,
+      "source": "Controller RVA0x12418 / VA0x412418, token060000d3: download IL115d..1167 and upload IL0dc4..0dce multiply by10 then conv.i4; ev_85efc3e4c344639790a45d018ae1860b638137a553252002261e561980d46bd8; evidence/deep-network-presentation-audit.json; src/render.rs"
+    },
+    {
+      "name": "original network minimum display threshold",
+      "group": "text",
+      "value": 0.01,
+      "unit": "MiB/s",
+      "source": "Controller RVA0x12418: IL1855..1885 and IL0da7..0db8 -> IL1415..1432 replace zero tenths with1 only when raw rate >0.01; evidence/deep-network-presentation-audit.json; src/render.rs"
+    },
+    {
+      "name": "original network overflow threshold",
+      "group": "text",
+      "value": 99,
+      "unit": "MiB/s",
+      "source": "Controller RVA0x12418: IL1490..14bd and IL0ebc..0ee9 compare >99 before replacing text with decoded999; evidence/deep-network-presentation-audit.json; src/render.rs"
+    },
+    {
+      "name": "original network overflow tenths",
+      "group": "text",
+      "value": 999,
+      "source": "Controller RVA0x12418: decoded999 at IL126a and IL0e3a; Insert(2, decimal point) yields99.9; evidence/deep-network-presentation-audit.json; src/render.rs"
+    },
+    {
+      "name": "original network display formula",
+      "group": "text",
+      "value": "q=truncate(MiBps*10); if q==0 and MiBps>0.01 q=1; if MiBps>99 q=999; display q/10 with one decimal digit",
+      "source": "Controller RVA0x12418 / VA0x412418, method060000d3, follows sampler0x113dc fields0400006b/6c to TItem.valueStr. Applied to default-one-decimal imported fields; raw readings remain unchanged. MECHANICS.md and evidence/deep-network-presentation-audit.json"
+    },
+    {
+      "name": "original network binary rate divisor",
+      "group": "data",
+      "value": 1024,
+      "source": "Sampler RVA 0x113dc (VA 0x4113dc), token 0x060000ce: IL_0425..043b and IL_0440..0457 divide byte rates by 1024 twice; fields0400006b/6c -> controller0x12418; ev_4eec6045a3d2ff20b3548d36ffc685ca8b2b8504cf1b50f84cbd88bec5f921a2; evidence/deep-verified-audit.json"
+    },
+    {
+      "name": "imported network rate formula",
+      "group": "data",
+      "value": "MBps * 1000000 / 1024 / 1024; retain unrounded byte/time samples",
+      "source": "Original sampler RVA0x113dc (VA0x4113dc), IL_03d5..0457; runtime::network_readings and model::DataState::value; evidence/deep-verified-audit.json"
+    },
+    {
+      "name": "legacy integer sensor text",
+      "group": "data",
+      "value": "truncate_toward_zero(float32(reading)) for CpuLoad, CpuTemp, GpuLoad, GpuTemp, RamLoad, HDDLoad; default zero-decimal imports; preserve fractional bar input",
+      "source": "managed controller RVA 0x12418 (VA 0x412418), conv.i4 at IL_0c62/0fc6/14e7/15c1/15fd/1775; ev_2022be79ad156870c4caa16164d89db6f6a659951fa15d93ecbe41e09806e560; app/evidence/deep-current-audit.json"
+    },
+    {
+      "name": "legacy temperature minimum digits",
+      "group": "text",
+      "value": 2,
+      "source": "managed controller RVA 0x12418 IL_14f1..14f4 and IL_15cb..15ce: CPU/GPU temperature int.ToString().PadLeft(2, '0'); app/evidence/deep-current-audit.json"
+    },
+    {
+      "name": "landscape width",
+      "group": "screen",
+      "value": 480,
+      "source": "user request; managed function RVA 0x2f090",
+      "unit": "px"
+    },
+    {
+      "name": "landscape height",
+      "group": "screen",
+      "value": 320,
+      "source": "user request; managed function RVA 0x2f090",
+      "unit": "px"
+    },
+    {
+      "name": "portrait width",
+      "group": "screen",
+      "value": 320,
+      "source": "user request; managed function RVA 0x2f090",
+      "unit": "px"
+    },
+    {
+      "name": "portrait height",
+      "group": "screen",
+      "value": 480,
+      "source": "user request; managed function RVA 0x2f090",
+      "unit": "px"
+    },
+    {
+      "name": "image opcode",
+      "group": "transport",
+      "value": 197,
+      "source": "RVA0x2fac0 IL005a..0070, opcode197 and inclusive x+width-1/y+height-1; src/original.rs image_header called by runtime::upload_frame; ev_c663d787225c57229efdebb6f807cdfcca8c9bae9acde62b00112c8ad9e413f2; evidence/deep-protocol-audit.json; MECHANICS.md"
+    },
+    {
+      "name": "orientation opcode",
+      "group": "transport",
+      "value": 121,
+      "source": "RVA0x2f2c0 IL00da..00e2 opcode121; src/original.rs orientation_packet called by runtime::upload_frame; ev_c663d787225c57229efdebb6f807cdfcca8c9bae9acde62b00112c8ad9e413f2; evidence/deep-protocol-audit.json; MECHANICS.md"
+    },
+    {
+      "name": "orientation bias",
+      "group": "transport",
+      "value": 100,
+      "source": "RVA0x2f2c0 IL00a0..00a4 adds100; src/original.rs ORIENTATION_BIAS and orientation_packet; ev_c663d787225c57229efdebb6f807cdfcca8c9bae9acde62b00112c8ad9e413f2; evidence/deep-protocol-audit.json; MECHANICS.md"
+    },
+    {
+      "name": "mode opcode",
+      "group": "transport",
+      "value": 122,
+      "source": "RVA0x2f1f0 IL00ac..00b5 opcode122; src/original.rs mirror_packet called by runtime::upload_frame; ev_c663d787225c57229efdebb6f807cdfcca8c9bae9acde62b00112c8ad9e413f2; evidence/deep-protocol-audit.json; MECHANICS.md"
+    },
+    {
+      "name": "brightness opcode",
+      "group": "transport",
+      "value": 110,
+      "source": "RVA0x10384 IL00ab..00b3 opcode110, raw brightness in first packed coordinate; src/original.rs brightness_header. Percentage mapping is existing user-confirmed UI policy; ev_c663d787225c57229efdebb6f807cdfcca8c9bae9acde62b00112c8ad9e413f2; evidence/deep-protocol-audit.json; MECHANICS.md"
+    },
+    {
+      "name": "command header length",
+      "group": "transport",
+      "value": 6,
+      "source": "RVA0x2f8a4 IL0127..0170 packs six bytes with conv.u1; src/original.rs COMMAND_HEADER_LEN and command_header, used by packet builders and runtime patch-cost estimate; ev_c663d787225c57229efdebb6f807cdfcca8c9bae9acde62b00112c8ad9e413f2; evidence/deep-protocol-audit.json; MECHANICS.md"
+    },
+    {
+      "name": "orientation payload length",
+      "group": "transport",
+      "value": 16,
+      "source": "RVA0x2f2c0 IL00a6..00ad allocates16 bytes; byte6 orientation+100, bytes7..10 big-endian width/height; src/original.rs SETTINGS_PACKET_LEN and orientation_packet. Mirror0x2f1f0 also allocates16 bytes; ev_c663d787225c57229efdebb6f807cdfcca8c9bae9acde62b00112c8ad9e413f2; evidence/deep-protocol-audit.json; MECHANICS.md"
+    },
+    {
+      "name": "serial baud",
+      "group": "transport",
+      "value": 115200,
+      "source": "managed function RVA 0x2ebb0 IL_01ef..01f4 explicitly sets BaudRate; ev_5b7e5f2b65b35b84d025c14eca1ed6f993b6f398f17dcbd22f501cc756308da7"
+    },
+    {
+      "name": "red mask",
+      "group": "transport",
+      "value": 63488,
+      "source": "managed function RVA 0x51a0"
+    },
+    {
+      "name": "green mask",
+      "group": "transport",
+      "value": 2016,
+      "source": "managed function RVA 0x51a0"
+    },
+    {
+      "name": "blue shift",
+      "group": "transport",
+      "value": 3,
+      "source": "managed function RVA 0x51a0"
+    },
+    {
+      "name": "pixel bytes",
+      "group": "transport",
+      "value": 2,
+      "source": "managed function RVA 0x51a0"
+    },
+    {
+      "name": "command delay",
+      "group": "transport",
+      "value": 10,
+      "source": "managed function RVA 0x2f1f0"
+    },
+    {
+      "name": "pixel byte order",
+      "group": "pixels",
+      "value": "little endian",
+      "source": "managed function RVA 0x2e07c: native Format16bppRgb565 LockBits and Marshal.Copy on little-endian Windows x64"
+    },
+    {
+      "name": "legacy format",
+      "group": "files",
+      "value": "NRBF BinaryFormatter ThemeConfig",
+      "source": "managed functions RVA 0xa894 and 0xa984"
+    },
+    {
+      "name": "legacy export mode",
+      "group": "files",
+      "value": "bitmap snapshot with editable JSON appendix",
+      "estimated": true
+    },
+    {
+      "name": "grid spacing",
+      "group": "editor",
+      "value": 8,
+      "estimated": true,
+      "unit": "px"
+    },
+    {
+      "name": "grid minimum",
+      "group": "editor",
+      "value": 2,
+      "estimated": true,
+      "unit": "px"
+    },
+    {
+      "name": "grid maximum",
+      "group": "editor",
+      "value": 64,
+      "estimated": true,
+      "unit": "px"
+    },
+    {
+      "name": "system refresh",
+      "group": "data",
+      "value": 1,
+      "estimated": true,
+      "unit": "s"
+    },
+    {
+      "name": "source refresh default",
+      "group": "data",
+      "value": 60,
+      "estimated": true,
+      "unit": "s"
+    },
+    {
+      "name": "source refresh minimum",
+      "group": "data",
+      "value": 5,
+      "estimated": true,
+      "unit": "s"
+    },
+    {
+      "name": "history samples",
+      "group": "charts",
+      "value": 60,
+      "estimated": true
+    },
+    {
+      "name": "chart minimum",
+      "group": "charts",
+      "value": 0,
+      "estimated": true
+    },
+    {
+      "name": "chart maximum",
+      "group": "charts",
+      "value": 100,
+      "estimated": true
+    },
+    {
+      "name": "preview zoom",
+      "group": "editor",
+      "value": 125,
+      "estimated": true,
+      "unit": "percent"
+    },
+    {
+      "name": "chart fraction",
+      "group": "charts",
+      "value": "clamp((value-min)/(max-min),0,1)",
+      "estimated": true
+    },
+    {
+      "name": "screenshot frame count",
+      "group": "verification",
+      "value": 120,
+      "source": "user requirement"
+    },
+    {
+      "name": "serial read timeout",
+      "group": "transport",
+      "value": 1000,
+      "unit": "ms",
+      "source": "managed function RVA 0x2ebb0 IL_01e3..01e8"
+    },
+    {
+      "name": "serial data bits",
+      "group": "transport",
+      "value": 8,
+      "source": "managed function RVA 0x2ebb0 IL_01fb..01fc"
+    },
+    {
+      "name": "serial DTR and RTS",
+      "group": "transport",
+      "value": "enabled",
+      "source": "managed function RVA 0x2ebb0 IL_01d3..01dc"
+    },
+    {
+      "name": "mirror mode meaning",
+      "group": "transport",
+      "value": "opcode 122 carries mirrorMode separately from orientation",
+      "source": "managed controller RVA 0x100e8; AppConfig getter RVA 0x2c68"
+    },
+    {
+      "name": "image wait rule",
+      "group": "transport",
+      "value": "10 ms before and after pixels unless device descriptor contains V2",
+      "source": "managed function RVA 0x2fac0; caller RVA 0x2f670 IL_00af"
+    },
+    {
+      "name": "legacy arc degrees per step",
+      "group": "charts",
+      "value": 3.6,
+      "source": "managed function RVA 0x4dfc8 IL_0299..02a4"
+    },
+    {
+      "name": "legacy bar height default",
+      "group": "charts",
+      "value": 13,
+      "source": "managed function RVA 0x5fa64 IL_00ee..00f0"
+    },
+    {
+      "name": "legacy arc geometry",
+      "group": "charts",
+      "value": "diameter archR; stroke archWidth; origin pos+30-offset-archWidth/2; bounds archR+archWidth; startPer*3.6 degrees",
+      "source": "managed functions RVA 0x4d350 and 0x4db44"
+    },
+    {
+      "name": "legacy clock format",
+      "group": "data",
+      "value": "HH:mm",
+      "source": "managed controller RVA 0x12418 decoded through g::b at RVA 0xcb28"
+    },
+    {
+      "name": "GPU memory capacity percentage",
+      "group": "data",
+      "value": "min(99,truncate(used/total*100))",
+      "source": "managed sensor RVA 0x46968 IL_1437..14d6; postprocessor RVA 0x15b78 IL_028d..02bc and IL_0397..03a2; ev_acb7cb94223faac649dc5664b99e3577bb84d8ca60cb321e9aaf26f127df0744"
+    },
+    {
+      "name": "GPU memory capacity percentage ceiling",
+      "group": "data",
+      "value": 99,
+      "unit": "percent",
+      "source": "managed function RVA 0x15b78 IL_028d..02bc and IL_0397..03a2"
+    },
+    {
+      "name": "legacy GPU memory load binding",
+      "group": "data",
+      "value": "GpuRamLoad -> gpu.memory.usage; GpuRam -> gpu.memory",
+      "source": "managed controller RVA 0x12418 IL_0722..076b -> IL_051f..053c; getter RVA 0xe49c token0x060000a3; field0x04000060; setter RVA 0xe54c token0x060000a4"
+    },
+    {
+      "name": "legacy glyph advance",
+      "group": "text",
+      "value": "posX + i * interval; interval may be smaller than W; field bounds W + (strLen-1) * interval",
+      "source": "TItem RVA 0x4f80c IL_0744..0751 and 0x500ec IL_01ea..01f7 -> getter0x5190c field0x04000346; ev_cb53ffbf94b43b60de319af8ae6e17a5aa04a5a3fc368d251494ae1439fb5399"
+    },
+    {
+      "name": "legacy text overflow",
+      "group": "text",
+      "value": "fixed cell size and advance; clip instead of shrinking to fit",
+      "source": "TItem RVA 0x4f80c IL_072b..0751; helper0x527c -> crop0x85f0 IL_00e8..0105"
+    },
+    {
+      "name": "legacy date format",
+      "group": "data",
+      "value": "yyyy/M/d",
+      "source": "TItem RVA 0x507d4 IL_022c..0243 and 0x50ba8 IL_00e6..00fd; decoder0xcb28 argument12"
+    },
+    {
+      "name": "legacy live reading ceiling",
+      "group": "data",
+      "value": 99,
+      "source": "managed postprocessor RVA 0x15b78; CpuTemp0xd994, CpuLoad0xdaf4, GpuTemp0xe074, GpuLoad0xe1d4, GpuRamLoad0xe49c, RamLoad0xea24, Volume0xeb84; ev_7e5b318e921dfbd905ec69f8790bf4dfb086fd0fddba027c828bef7284482ab8"
+    },
+    {
+      "name": "legacy bar pixel length",
+      "group": "charts",
+      "value": "truncate(value*0.01*length); capped150px bar at100 reads148px; subpixel widths draw zero pixels",
+      "source": "managed controller RVA 0x12418 IL_0349..0366 and IL_0770..078d; postprocessor0x15b78"
+    },
+    {
+      "name": "legacy CPU frequency bar full scale",
+      "group": "charts",
+      "value": 8000,
+      "unit": "MHz",
+      "source": "managed controller RVA 0x12418 IL_088e CpuFreq -> IL_08bc..08db -> IL_0809..0822; getter0xdc54 token0x06000097 field0x0400005a; ev_d64d5cad89730b7e6a2004fceea660f285946a5934fb3e23c5abaaf9a5b439b6"
+    },
+    {
+      "name": "legacy CPU frequency bar formula",
+      "group": "charts",
+      "value": "truncate(float32(GHz*1000)/float32(8000)*float32(length)), bounded to saved length",
+      "source": "managed controller RVA 0x12418 IL_0809..0822; upper bound IL_08e0..092b -> IL_05fb..0604; app/evidence/deep-frequency-audit.json"
+    }
+  ]
+}

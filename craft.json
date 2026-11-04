@@ -1,0 +1,2019 @@
+{
+  "version": 2,
+  "name": "uMonitor",
+  "request": "I would like to have an app for windows that allows to prepare a cockpit to monitor various data and show it on the connected screen (480x320 pixels) in landscape or portrait mode. \nThe app should allow for designing a layout with:\n- choice of landscape or portrait\n- a wall paper chosen from filesystem, that should be resized to the screen resolution,\n- place with drag and drop predefined fields, like the ones in the example app, but also add other data like \n    - text strings\n\t- stock tickers, \n    - weather info, \n    - status of homeassistant provided data (configure homeassistant address and drag and drop data)\n    - json sources retrieved via http or https (to provide address and drag and drop fields)\n    - other you suggest\nThese data fields and indicators should be possible to place freely on the screen, but there is also an option to activate a grid to snap controls. \nTo display data it should also support \n- pie chart, \n- data bars, \n- all the other features provided in the example app. \nThe application should have a front end for creating a new design, load from disk (both the old format and in new json format), modify it, save it (both in the old format and in the new format in json format), upload it to the screen, etc.\nWhen minimized it should run in the windows tray. By clicking the tray icon it should maximize the window. by right clicking it should present the option to:\n- open the app (maximize the window)\n- add/remove to windows startup\n- exit",
+  "target": {
+    "kind": "local",
+    "path": "C:\\Program Files\\35inchENG\\UsbMonitor.exe"
+  },
+  "stack": "Rust + egui (eframe)",
+  "status": "ready",
+  "note": "Ready: all 3 checks pass, 36 of 36 claims hold. 2 questions about the original are still open.",
+  "created_ms": 1793707338310,
+  "updated_ms": 1793830649546,
+  "checks": [
+    {
+      "round": 1,
+      "check": "build",
+      "passed": true,
+      "similarity": null,
+      "note": "Build succeeded.",
+      "artifacts": [],
+      "at_ms": 1793709163278
+    },
+    {
+      "round": 1,
+      "check": "app-screenshot",
+      "passed": true,
+      "similarity": null,
+      "note": "The program starts and draws (3450×2125).",
+      "artifacts": [
+        "checks\\round-1\\screenshot.png"
+      ],
+      "at_ms": 1793709168340
+    },
+    {
+      "round": 1,
+      "check": "mechanics",
+      "passed": true,
+      "similarity": null,
+      "note": "app/mechanics.json has 32 values (20 with a source, 12 estimated).",
+      "artifacts": [],
+      "at_ms": 1793709168342,
+      "claims": [
+        {
+          "title": "landscape width (480) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "landscape height (320) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "portrait width (320) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "portrait height (480) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "image opcode (197) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation opcode (121) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation bias (100) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "mode opcode (122) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "brightness opcode (110) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "command header length (6) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation payload length (16) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial baud (9600) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "red mask (63488) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "green mask (2016) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "blue shift (3) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "pixel bytes (2) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "command delay (10) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "screenshot frame count (120) is used in the code",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "check": "build",
+      "passed": true,
+      "similarity": null,
+      "note": "Build succeeded.",
+      "artifacts": [],
+      "at_ms": 1793721604672
+    },
+    {
+      "round": 2,
+      "check": "app-screenshot",
+      "passed": true,
+      "similarity": null,
+      "note": "The program starts and draws (3450×2125).",
+      "artifacts": [
+        "checks\\round-2\\screenshot.png"
+      ],
+      "at_ms": 1793721610058
+    },
+    {
+      "round": 2,
+      "check": "mechanics",
+      "passed": true,
+      "similarity": null,
+      "note": "app/mechanics.json has 41 values (29 with a source, 12 estimated).",
+      "artifacts": [],
+      "at_ms": 1793721610064,
+      "claims": [
+        {
+          "title": "landscape width (480) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "landscape height (320) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "portrait width (320) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "portrait height (480) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "image opcode (197) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation opcode (121) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation bias (100) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "mode opcode (122) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "brightness opcode (110) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "command header length (6) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation payload length (16) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial baud (115200) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "red mask (63488) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "green mask (2016) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "blue shift (3) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "pixel bytes (2) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "command delay (10) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "screenshot frame count (120) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial read timeout (1000) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial data bits (8) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy arc degrees per step (3.6) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy bar height default (13) is used in the code",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "check": "build",
+      "passed": true,
+      "similarity": null,
+      "note": "Build succeeded.",
+      "artifacts": [],
+      "at_ms": 1793727065369
+    },
+    {
+      "round": 3,
+      "check": "app-screenshot",
+      "passed": true,
+      "similarity": null,
+      "note": "The program starts and draws (3450×2125).",
+      "artifacts": [
+        "checks\\round-3\\screenshot.png"
+      ],
+      "at_ms": 1793727070701
+    },
+    {
+      "round": 3,
+      "check": "mechanics",
+      "passed": true,
+      "similarity": null,
+      "note": "app/mechanics.json has 44 values (32 with a source, 12 estimated).",
+      "artifacts": [],
+      "at_ms": 1793727070711,
+      "claims": [
+        {
+          "title": "landscape width (480) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "landscape height (320) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "portrait width (320) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "portrait height (480) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "image opcode (197) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation opcode (121) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation bias (100) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "mode opcode (122) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "brightness opcode (110) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "command header length (6) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation payload length (16) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial baud (115200) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "red mask (63488) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "green mask (2016) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "blue shift (3) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "pixel bytes (2) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "command delay (10) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "screenshot frame count (120) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial read timeout (1000) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial data bits (8) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy arc degrees per step (3.6) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy bar height default (13) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "GPU memory capacity percentage ceiling (99) is used in the code",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "round": 4,
+      "check": "build",
+      "passed": true,
+      "similarity": null,
+      "note": "Build succeeded.",
+      "artifacts": [],
+      "at_ms": 1793730819140
+    },
+    {
+      "round": 4,
+      "check": "app-screenshot",
+      "passed": true,
+      "similarity": null,
+      "note": "The program starts and draws (3450×2125).",
+      "artifacts": [
+        "checks\\round-4\\screenshot.png"
+      ],
+      "at_ms": 1793730824461
+    },
+    {
+      "round": 4,
+      "check": "mechanics",
+      "passed": true,
+      "similarity": null,
+      "note": "app/mechanics.json has 47 values (35 with a source, 12 estimated).",
+      "artifacts": [],
+      "at_ms": 1793730824471,
+      "claims": [
+        {
+          "title": "landscape width (480) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "landscape height (320) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "portrait width (320) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "portrait height (480) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "image opcode (197) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation opcode (121) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation bias (100) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "mode opcode (122) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "brightness opcode (110) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "command header length (6) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation payload length (16) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial baud (115200) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "red mask (63488) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "green mask (2016) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "blue shift (3) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "pixel bytes (2) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "command delay (10) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "screenshot frame count (120) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial read timeout (1000) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial data bits (8) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy arc degrees per step (3.6) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy bar height default (13) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "GPU memory capacity percentage ceiling (99) is used in the code",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "round": 5,
+      "check": "build",
+      "passed": true,
+      "similarity": null,
+      "note": "Build succeeded.",
+      "artifacts": [],
+      "at_ms": 1793738889111
+    },
+    {
+      "round": 5,
+      "check": "app-screenshot",
+      "passed": true,
+      "similarity": null,
+      "note": "The program starts and draws (3450×2125).",
+      "artifacts": [
+        "checks\\round-5\\screenshot.png"
+      ],
+      "at_ms": 1793738894805
+    },
+    {
+      "round": 5,
+      "check": "mechanics",
+      "passed": true,
+      "similarity": null,
+      "note": "app/mechanics.json has 49 values (37 with a source, 12 estimated).",
+      "artifacts": [],
+      "at_ms": 1793738894832,
+      "claims": [
+        {
+          "title": "landscape width (480) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "landscape height (320) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "portrait width (320) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "portrait height (480) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "image opcode (197) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation opcode (121) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation bias (100) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "mode opcode (122) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "brightness opcode (110) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "command header length (6) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation payload length (16) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial baud (115200) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "red mask (63488) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "green mask (2016) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "blue shift (3) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "pixel bytes (2) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "command delay (10) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "screenshot frame count (120) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial read timeout (1000) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial data bits (8) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy arc degrees per step (3.6) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy bar height default (13) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "GPU memory capacity percentage ceiling (99) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy live reading ceiling (99) is used in the code",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "round": 6,
+      "check": "build",
+      "passed": true,
+      "similarity": null,
+      "note": "Build succeeded.",
+      "artifacts": [],
+      "at_ms": 1793746346336
+    },
+    {
+      "round": 6,
+      "check": "app-screenshot",
+      "passed": true,
+      "similarity": null,
+      "note": "The program starts and draws (3450×2125).",
+      "artifacts": [
+        "checks\\round-6\\screenshot.png"
+      ],
+      "at_ms": 1793746352035
+    },
+    {
+      "round": 6,
+      "check": "mechanics",
+      "passed": true,
+      "similarity": null,
+      "note": "app/mechanics.json has 51 values (39 with a source, 12 estimated).",
+      "artifacts": [],
+      "at_ms": 1793746352074,
+      "claims": [
+        {
+          "title": "landscape width (480) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "landscape height (320) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "portrait width (320) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "portrait height (480) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "image opcode (197) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation opcode (121) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation bias (100) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "mode opcode (122) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "brightness opcode (110) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "command header length (6) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation payload length (16) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial baud (115200) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "red mask (63488) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "green mask (2016) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "blue shift (3) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "pixel bytes (2) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "command delay (10) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "screenshot frame count (120) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial read timeout (1000) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial data bits (8) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy arc degrees per step (3.6) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy bar height default (13) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "GPU memory capacity percentage ceiling (99) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy live reading ceiling (99) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy CPU frequency bar full scale (8000) is used in the code",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "round": 7,
+      "check": "build",
+      "passed": true,
+      "similarity": null,
+      "note": "Build succeeded.",
+      "artifacts": [],
+      "at_ms": 1793748442839
+    },
+    {
+      "round": 7,
+      "check": "app-screenshot",
+      "passed": true,
+      "similarity": null,
+      "note": "The program starts and draws (3450×2125).",
+      "artifacts": [
+        "checks\\round-7\\screenshot.png"
+      ],
+      "at_ms": 1793748448412
+    },
+    {
+      "round": 7,
+      "check": "mechanics",
+      "passed": true,
+      "similarity": null,
+      "note": "app/mechanics.json has 53 values (41 with a source, 12 estimated).",
+      "artifacts": [],
+      "at_ms": 1793748448437,
+      "claims": [
+        {
+          "title": "legacy temperature minimum digits (2) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "landscape width (480) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "landscape height (320) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "portrait width (320) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "portrait height (480) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "image opcode (197) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation opcode (121) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation bias (100) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "mode opcode (122) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "brightness opcode (110) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "command header length (6) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation payload length (16) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial baud (115200) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "red mask (63488) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "green mask (2016) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "blue shift (3) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "pixel bytes (2) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "command delay (10) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "screenshot frame count (120) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial read timeout (1000) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial data bits (8) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy arc degrees per step (3.6) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy bar height default (13) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "GPU memory capacity percentage ceiling (99) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy live reading ceiling (99) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy CPU frequency bar full scale (8000) is used in the code",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "round": 8,
+      "check": "build",
+      "passed": true,
+      "similarity": null,
+      "note": "Build succeeded.",
+      "artifacts": [],
+      "at_ms": 1793750579722
+    },
+    {
+      "round": 8,
+      "check": "app-screenshot",
+      "passed": true,
+      "similarity": null,
+      "note": "The program starts and draws (3450×2125).",
+      "artifacts": [
+        "checks\\round-8\\screenshot.png"
+      ],
+      "at_ms": 1793750585257
+    },
+    {
+      "round": 8,
+      "check": "mechanics",
+      "passed": true,
+      "similarity": null,
+      "note": "app/mechanics.json has 55 values (43 with a source, 12 estimated).",
+      "artifacts": [],
+      "at_ms": 1793750585288,
+      "claims": [
+        {
+          "title": "original network binary rate divisor (1024) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy temperature minimum digits (2) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "landscape width (480) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "landscape height (320) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "portrait width (320) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "portrait height (480) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "image opcode (197) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation opcode (121) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation bias (100) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "mode opcode (122) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "brightness opcode (110) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "command header length (6) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation payload length (16) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial baud (115200) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "red mask (63488) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "green mask (2016) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "blue shift (3) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "pixel bytes (2) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "command delay (10) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "screenshot frame count (120) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial read timeout (1000) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial data bits (8) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy arc degrees per step (3.6) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy bar height default (13) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "GPU memory capacity percentage ceiling (99) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy live reading ceiling (99) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy CPU frequency bar full scale (8000) is used in the code",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "round": 9,
+      "check": "build",
+      "passed": true,
+      "similarity": null,
+      "note": "Build succeeded.",
+      "artifacts": [],
+      "at_ms": 1793783236418
+    },
+    {
+      "round": 9,
+      "check": "app-screenshot",
+      "passed": true,
+      "similarity": null,
+      "note": "The program starts and draws (3450×2125).",
+      "artifacts": [
+        "checks\\round-9\\screenshot.png"
+      ],
+      "at_ms": 1793783242239
+    },
+    {
+      "round": 9,
+      "check": "mechanics",
+      "passed": true,
+      "similarity": null,
+      "note": "app/mechanics.json has 60 values (48 with a source, 12 estimated).",
+      "artifacts": [],
+      "at_ms": 1793783242310,
+      "claims": [
+        {
+          "title": "original network display tenths multiplier (10) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original network minimum display threshold (0.01) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original network overflow threshold (99) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original network overflow tenths (999) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original network binary rate divisor (1024) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy temperature minimum digits (2) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "landscape width (480) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "landscape height (320) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "portrait width (320) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "portrait height (480) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "image opcode (197) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation opcode (121) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation bias (100) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "mode opcode (122) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "brightness opcode (110) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "command header length (6) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation payload length (16) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial baud (115200) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "red mask (63488) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "green mask (2016) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "blue shift (3) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "pixel bytes (2) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "command delay (10) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "screenshot frame count (120) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial read timeout (1000) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial data bits (8) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy arc degrees per step (3.6) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy bar height default (13) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "GPU memory capacity percentage ceiling (99) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy live reading ceiling (99) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy CPU frequency bar full scale (8000) is used in the code",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "round": 10,
+      "check": "build",
+      "passed": true,
+      "similarity": null,
+      "note": "Build succeeded.",
+      "artifacts": [],
+      "at_ms": 1793802539122
+    },
+    {
+      "round": 10,
+      "check": "app-screenshot",
+      "passed": true,
+      "similarity": null,
+      "note": "The program starts and draws (3450×2125).",
+      "artifacts": [
+        "checks\\round-10\\screenshot.png"
+      ],
+      "at_ms": 1793802544685
+    },
+    {
+      "round": 10,
+      "check": "mechanics",
+      "passed": true,
+      "similarity": null,
+      "note": "app/mechanics.json has 63 values (51 with a source, 12 estimated).",
+      "artifacts": [],
+      "at_ms": 1793802544796,
+      "claims": [
+        {
+          "title": "original CPU frequency text divisor (10000) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original CPU frequency text round digits (2) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original network display tenths multiplier (10) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original network minimum display threshold (0.01) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original network overflow threshold (99) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original network overflow tenths (999) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original network binary rate divisor (1024) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy temperature minimum digits (2) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "landscape width (480) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "landscape height (320) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "portrait width (320) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "portrait height (480) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "image opcode (197) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation opcode (121) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation bias (100) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "mode opcode (122) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "brightness opcode (110) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "command header length (6) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation payload length (16) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial baud (115200) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "red mask (63488) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "green mask (2016) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "blue shift (3) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "pixel bytes (2) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "command delay (10) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "screenshot frame count (120) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial read timeout (1000) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial data bits (8) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy arc degrees per step (3.6) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy bar height default (13) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "GPU memory capacity percentage ceiling (99) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy live reading ceiling (99) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy CPU frequency bar full scale (8000) is used in the code",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "round": 11,
+      "check": "build",
+      "passed": true,
+      "similarity": null,
+      "note": "Build succeeded.",
+      "artifacts": [],
+      "at_ms": 1793804063575
+    },
+    {
+      "round": 11,
+      "check": "app-screenshot",
+      "passed": true,
+      "similarity": null,
+      "note": "The program starts and draws (3450×2125).",
+      "artifacts": [
+        "checks\\round-11\\screenshot.png"
+      ],
+      "at_ms": 1793804069176
+    },
+    {
+      "round": 11,
+      "check": "mechanics",
+      "passed": true,
+      "similarity": null,
+      "note": "app/mechanics.json has 65 values (53 with a source, 12 estimated).",
+      "artifacts": [],
+      "at_ms": 1793804069263,
+      "claims": [
+        {
+          "title": "original CPU frequency text divisor (10000) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original CPU frequency text round digits (2) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original network display tenths multiplier (10) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original network minimum display threshold (0.01) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original network overflow threshold (99) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original network overflow tenths (999) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original network binary rate divisor (1024) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy temperature minimum digits (2) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "landscape width (480) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "landscape height (320) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "portrait width (320) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "portrait height (480) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "image opcode (197) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation opcode (121) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation bias (100) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "mode opcode (122) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "brightness opcode (110) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "command header length (6) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation payload length (16) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial baud (115200) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "red mask (63488) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "green mask (2016) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "blue shift (3) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "pixel bytes (2) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "command delay (10) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "screenshot frame count (120) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial read timeout (1000) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial data bits (8) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy arc degrees per step (3.6) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy bar height default (13) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "GPU memory capacity percentage ceiling (99) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy live reading ceiling (99) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy CPU frequency bar full scale (8000) is used in the code",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "round": 12,
+      "check": "build",
+      "passed": true,
+      "similarity": null,
+      "note": "Build succeeded.",
+      "artifacts": [],
+      "at_ms": 1793807190594
+    },
+    {
+      "round": 12,
+      "check": "app-screenshot",
+      "passed": true,
+      "similarity": null,
+      "note": "The program starts and draws (3450×2125).",
+      "artifacts": [
+        "checks\\round-12\\screenshot.png"
+      ],
+      "at_ms": 1793807196205
+    },
+    {
+      "round": 12,
+      "check": "mechanics",
+      "passed": true,
+      "similarity": null,
+      "note": "app/mechanics.json has 67 values (55 with a source, 12 estimated).",
+      "artifacts": [],
+      "at_ms": 1793807196305,
+      "claims": [
+        {
+          "title": "original network sampler positive minimum (0.1) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original network sampler negative reset (0) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original CPU frequency text divisor (10000) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original CPU frequency text round digits (2) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original network display tenths multiplier (10) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original network minimum display threshold (0.01) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original network overflow threshold (99) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original network overflow tenths (999) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original network binary rate divisor (1024) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy temperature minimum digits (2) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "landscape width (480) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "landscape height (320) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "portrait width (320) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "portrait height (480) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "image opcode (197) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation opcode (121) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation bias (100) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "mode opcode (122) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "brightness opcode (110) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "command header length (6) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation payload length (16) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial baud (115200) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "red mask (63488) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "green mask (2016) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "blue shift (3) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "pixel bytes (2) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "command delay (10) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "screenshot frame count (120) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial read timeout (1000) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial data bits (8) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy arc degrees per step (3.6) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy bar height default (13) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "GPU memory capacity percentage ceiling (99) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy live reading ceiling (99) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy CPU frequency bar full scale (8000) is used in the code",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "round": 13,
+      "check": "build",
+      "passed": true,
+      "similarity": null,
+      "note": "Build succeeded.",
+      "artifacts": [],
+      "at_ms": 1793811667964
+    },
+    {
+      "round": 13,
+      "check": "app-screenshot",
+      "passed": true,
+      "similarity": null,
+      "note": "The program starts and draws (3450×2125).",
+      "artifacts": [
+        "checks\\round-13\\screenshot.png"
+      ],
+      "at_ms": 1793811673559
+    },
+    {
+      "round": 13,
+      "check": "mechanics",
+      "passed": true,
+      "similarity": null,
+      "note": "app/mechanics.json has 67 values (55 with a source, 12 estimated).",
+      "artifacts": [],
+      "at_ms": 1793811673671,
+      "claims": [
+        {
+          "title": "original network sampler positive minimum (0.1) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original network sampler negative reset (0) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original CPU frequency text divisor (10000) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original CPU frequency text round digits (2) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original network display tenths multiplier (10) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original network minimum display threshold (0.01) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original network overflow threshold (99) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original network overflow tenths (999) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original network binary rate divisor (1024) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy temperature minimum digits (2) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "landscape width (480) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "landscape height (320) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "portrait width (320) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "portrait height (480) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "image opcode (197) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation opcode (121) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation bias (100) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "mode opcode (122) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "brightness opcode (110) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "command header length (6) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation payload length (16) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial baud (115200) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "red mask (63488) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "green mask (2016) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "blue shift (3) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "pixel bytes (2) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "command delay (10) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "screenshot frame count (120) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial read timeout (1000) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial data bits (8) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy arc degrees per step (3.6) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy bar height default (13) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "GPU memory capacity percentage ceiling (99) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy live reading ceiling (99) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy CPU frequency bar full scale (8000) is used in the code",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "round": 14,
+      "check": "build",
+      "passed": true,
+      "similarity": null,
+      "note": "Build succeeded.",
+      "artifacts": [],
+      "at_ms": 1793830643927
+    },
+    {
+      "round": 14,
+      "check": "app-screenshot",
+      "passed": true,
+      "similarity": null,
+      "note": "The program starts and draws (3450×2125).",
+      "artifacts": [
+        "checks\\round-14\\screenshot.png"
+      ],
+      "at_ms": 1793830649456
+    },
+    {
+      "round": 14,
+      "check": "mechanics",
+      "passed": true,
+      "similarity": null,
+      "note": "app/mechanics.json has 69 values (57 with a source, 12 estimated).",
+      "artifacts": [],
+      "at_ms": 1793830649534,
+      "claims": [
+        {
+          "title": "legacy arc gap period (4) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original network sampler positive minimum (0.1) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original network sampler negative reset (0) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original CPU frequency text divisor (10000) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original CPU frequency text round digits (2) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original network display tenths multiplier (10) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original network minimum display threshold (0.01) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original network overflow threshold (99) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original network overflow tenths (999) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original network binary rate divisor (1024) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy temperature minimum digits (2) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "landscape width (480) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "landscape height (320) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "portrait width (320) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "portrait height (480) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "image opcode (197) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation opcode (121) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation bias (100) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "mode opcode (122) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "brightness opcode (110) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "command header length (6) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation payload length (16) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial baud (115200) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "red mask (63488) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "green mask (2016) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "blue shift (3) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "pixel bytes (2) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "command delay (10) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "screenshot frame count (120) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial read timeout (1000) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial data bits (8) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy arc degrees per step (3.6) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy bar height default (13) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "GPU memory capacity percentage ceiling (99) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy live reading ceiling (99) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy CPU frequency bar full scale (8000) is used in the code",
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "agent_session": "01a1a898-aab9-7760-a713-113c5dc8ec8a",
+  "allowed_actions": [],
+  "last_reply": "I’ll inspect the original program, trace the functions behind the current build, and use the recovered rules to update the app and `app/MECHANICS.md` before rebuilding.\nThe original is a .NET program, and its obfuscated names don’t appear in the native string search. I’ve opened it in Deep mode and am following its managed references alongside the requested pseudocode calls to recover usable rules.\nI found a saved arc setting the importer was dropping: the original can leave a gap at every fourth 3.6° segment. I’m tracing that setting through the drawing and transfer functions, then I’ll preserve it in imported dashboards and verify the rendered result.\nAll 48 requested function reads are complete and saved with their matching .NET instructions and references. The new tests reproduced the dropped arc setting; after the fix, both import and rendering tests pass. I’m updating the mechanics sheet and checking the full build and portable ZIP.\nThe release build and all 56 tests pass. Craft’s startup and mechanics checks also pass, and the rebuilt portable ZIP passes its file and checksum checks. I’m now checking the packaged app and visually reviewing the recovered arc gaps.\nInspected 48 original functions and recorded verified rules and addresses in [MECHANICS.md](C:/Users/umbac/Desktop/Craft/app/MECHANICS.md). Native decompilation misread the .NET code, so behavioral rules were verified from managed instructions.\n\nFixed the missing arc-gap setting and rebuilt the [portable app ZIP](C:/Users/umbac/Desktop/Craft/uMonitor-0.1.0-windows-x64-portable.zip). All 56 tests and Craft checks pass.",
+  "asset_budget_usd": 5.0,
+  "generate_assets": false
+}
