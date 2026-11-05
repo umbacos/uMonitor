@@ -709,16 +709,16 @@ fn run(
             }
             if serial.is_none() && !current_port.is_empty() {
                 match serialport::new(&current_port, current_baud)
-                    .data_bits(serialport::DataBits::Eight)
-                    .stop_bits(serialport::StopBits::One)
-                    .parity(serialport::Parity::None)
+                    .data_bits(original::SERIAL_DATA_BITS)
+                    .stop_bits(original::SERIAL_STOP_BITS)
+                    .parity(original::SERIAL_PARITY)
                     .flow_control(serialport::FlowControl::None)
-                    .dtr_on_open(true)
+                    .dtr_on_open(original::SERIAL_DTR)
                     .timeout(Duration::from_millis(SERIAL_TIMEOUT_MS))
                     .open()
                     .and_then(|mut handle| {
-                        handle.write_data_terminal_ready(true)?;
-                        handle.write_request_to_send(true)?;
+                        handle.write_data_terminal_ready(original::SERIAL_DTR)?;
+                        handle.write_request_to_send(original::SERIAL_RTS)?;
                         Ok(handle)
                     }) {
                     Ok(handle) => {

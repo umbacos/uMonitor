@@ -1,7 +1,7 @@
 //! Original HWiNFO client ABI, verified against UsbMonitor managed P/Invokes.
 //! Native acquisition runs in a separate process so a driver hang/crash cannot
 //! block the editor or its other sensor providers. See evidence/hwinfo-api.json.
-use crate::model::DataState;
+use crate::{model::DataState, original};
 use serde_json::{Map, Value};
 use std::{
     io::{BufRead, BufReader, Read, Write},
@@ -75,14 +75,14 @@ impl Library {
             }
             Ok(Self {
                 module,
-                init: ordinal!(684, Init),
-                close: ordinal!(458, Count),
-                count: ordinal!(630, Count),
-                refresh: ordinal!(216, Refresh),
-                name: ordinal!(531, DeviceName),
-                temperature: ordinal!(566, Reading),
-                fan: ordinal!(663, Fan),
-                power: ordinal!(579, Reading),
+                init: ordinal!(original::HARDWARE_INIT_ORDINAL, Init),
+                close: ordinal!(original::HARDWARE_CLOSE_ORDINAL, Count),
+                count: ordinal!(original::HARDWARE_COUNT_ORDINAL, Count),
+                refresh: ordinal!(original::HARDWARE_REFRESH_ORDINAL, Refresh),
+                name: ordinal!(original::HARDWARE_NAME_ORDINAL, DeviceName),
+                temperature: ordinal!(original::HARDWARE_TEMPERATURE_ORDINAL, Reading),
+                fan: ordinal!(original::HARDWARE_FAN_ORDINAL, Fan),
+                power: ordinal!(original::HARDWARE_POWER_ORDINAL, Reading),
                 initialized: false,
             })
         }
@@ -279,7 +279,7 @@ pub fn run_helper(once: bool) {
         }
     };
     // Same flags as the original's static initializer and code.ini default.
-    let init_code = unsafe { (library.init)(64) };
+    let init_code = unsafe { (library.init)(original::HARDWARE_INIT_FLAGS) };
     library.initialized = true;
     let (stop, stopped) = mpsc::channel();
     if !once {

@@ -2,6 +2,7 @@
 //! Addresses below are method RVAs. Full CLR bodies, references and the 40
 //! awaited native responses are in evidence/deep-columns-audit.json.
 //! Fresh inspection: evidence/deep-build-audit.json (31 awaited responses).
+//! Latest request: evidence/deep-request-audit.json (39 awaited responses).
 //! Ghidra native output is invalid for this CLR assembly; use the managed IL.
 
 // Dimensions: 0x2f090; command values: 0x2fac0/0x2f2c0/0x10384/0x2f1f0.
@@ -18,7 +19,24 @@ pub const ORIENTATION_BIAS: u8 = 100;
 // Serial open 0x2ebb0 IL_01d2..0211; waits 0x2f1f0/0x2f2c0.
 pub const SERIAL_BAUD: u32 = 115200;
 pub const SERIAL_TIMEOUT_MS: u64 = 1000;
+pub const SERIAL_DATA_BITS: serialport::DataBits = serialport::DataBits::Eight;
+pub const SERIAL_STOP_BITS: serialport::StopBits = serialport::StopBits::One;
+pub const SERIAL_PARITY: serialport::Parity = serialport::Parity::None;
+pub const SERIAL_DTR: bool = true;
+pub const SERIAL_RTS: bool = true;
 pub const COMMAND_DELAY_MS: u64 = 10;
+// Hardware static initializer0x46498 IL_00a9..00ab -> wrapper0x44cac IL_00ad..00b2.
+pub const HARDWARE_INIT_FLAGS: i32 = 64;
+// Managed P/Invoke declarations, tokens0x0600026f/270/273..278/27a.
+// Discovery0x41b08 IL_0351 uses device-count token0x06000273 (#630).
+pub const HARDWARE_INIT_ORDINAL: u16 = 684;
+pub const HARDWARE_CLOSE_ORDINAL: u16 = 458;
+pub const HARDWARE_COUNT_ORDINAL: u16 = 630;
+pub const HARDWARE_REFRESH_ORDINAL: u16 = 216;
+pub const HARDWARE_NAME_ORDINAL: u16 = 531;
+pub const HARDWARE_TEMPERATURE_ORDINAL: u16 = 566;
+pub const HARDWARE_FAN_ORDINAL: u16 = 663;
+pub const HARDWARE_POWER_ORDINAL: u16 = 579;
 // Controller 0x12418 IL_0809..0822; postprocessor 0x15b78.
 pub const LEGACY_CPU_FREQUENCY_MAX_MHZ: f32 = 8000.;
 pub const SENSOR_CEILING: f64 = 99.;

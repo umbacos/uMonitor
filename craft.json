@@ -7,10 +7,10 @@
     "path": "C:\\Program Files\\35inchENG\\UsbMonitor.exe"
   },
   "stack": "Rust + egui (eframe)",
-  "status": "needs_you",
-  "note": "Codex stopped with exit code 1: 2026-11-05T07:41:53.372186Z ERROR rmcp::transport::worker: worker quit with fatal: Transport channel closed, when Client(HttpRequest(HttpRequest(\"http/request failed: error sending request for url (http://127.0.0.1:27182/mcp)\"))). What Codex printed last:\nReading additional input from stdin...\n2026-11-05T07:41:53.372186Z ERROR rmcp::transport::worker: worker quit with fatal: Transport channel closed, when Client(HttpRequest(HttpRequest(\"http/request failed: error sending request for url (http://127.0.0.1:27182/mcp)\")))\n\nTo try it yourself, run:\ncodex exec --json --skip-git-repo-check --sandbox workspace-write -c 'mcp_servers.craft-anything.command=\"\\\\\\\\?\\\\C:\\\\Program Files\\\\Craft Anything\\\\craft-anything-cli.exe\"' -c <213 characters left out> '[your message, 296 characters]'",
+  "status": "ready",
+  "note": "Ready: all 3 checks pass, 43 of 43 claims hold.",
   "created_ms": 1793707338310,
-  "updated_ms": 1793864514071,
+  "updated_ms": 1793877283758,
   "checks": [
     {
       "round": 1,
@@ -2375,11 +2375,214 @@
           "passed": true
         }
       ]
+    },
+    {
+      "round": 17,
+      "check": "build",
+      "passed": true,
+      "similarity": null,
+      "note": "Build succeeded.",
+      "artifacts": [],
+      "at_ms": 1793877277941
+    },
+    {
+      "round": 17,
+      "check": "app-screenshot",
+      "passed": true,
+      "similarity": null,
+      "note": "The program starts and draws (3450×2125).",
+      "artifacts": [
+        "checks\\round-17\\screenshot.png"
+      ],
+      "at_ms": 1793877283689
+    },
+    {
+      "round": 17,
+      "check": "mechanics",
+      "passed": true,
+      "similarity": null,
+      "note": "app/mechanics.json has 80 values (68 with a source, 12 estimated).",
+      "artifacts": [],
+      "at_ms": 1793877283738,
+      "claims": [
+        {
+          "title": "legacy usage volume and disk temperature text columns (2) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy CPU power text columns (3) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy GPU memory and fan text columns (5) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy network text columns with decimal (4) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy arc gap period (4) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original network sampler positive minimum (0.1) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original network sampler negative reset (0) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original CPU frequency text divisor (10000) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original CPU frequency text round digits (2) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original network display tenths multiplier (10) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original network minimum display threshold (0.01) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original network overflow threshold (99) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original network overflow tenths (999) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "original network binary rate divisor (1024) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy temperature minimum digits (2) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "landscape width (480) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "landscape height (320) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "portrait width (320) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "portrait height (480) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "image opcode (197) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation opcode (121) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation bias (100) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "mode opcode (122) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "brightness opcode (110) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "command header length (6) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "orientation payload length (16) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial baud (115200) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "red mask (63488) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "green mask (2016) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "blue shift (3) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "pixel bytes (2) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "command delay (10) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "screenshot frame count (120) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial read timeout (1000) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial data bits (8) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy arc degrees per step (3.6) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy bar height default (13) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "GPU memory capacity percentage ceiling (99) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy live reading ceiling (99) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "legacy CPU frequency bar full scale (8000) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "serial stop bits (1) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "hardware initialization flags (64) is used in the code",
+          "passed": true
+        },
+        {
+          "title": "hardware device count ordinal (630) is used in the code",
+          "passed": true
+        }
+      ]
     }
   ],
-  "agent_session": "01a1aaa8-2bec-7ef0-82fe-1450e8330b1d",
+  "agent_session": "01a1ab63-a5fc-7f62-be98-6eb9ef5a86f3",
   "allowed_actions": [],
-  "last_reply": "I’ll check the build process in `app/`, add the portable ZIP with the full config directory and examples, then rebuild and run `rebuild_check`.\nThe ZIP packager already exists, but it runs as a separate optional step. I’ll make it part of the standard build command, preserve the requirement for future changes, and check that the ZIP contains every file in `config/`.\nThe build produced the portable ZIP, and verification confirms that all four examples and the config instructions are included and match the source files. I’m checking that the extracted package launches, then I’ll run `rebuild_check`.\nThe standard build now always creates a portable ZIP containing the complete config directory and all examples. The rebuilt ZIP is ready in app/, and package verification and rebuild_check both passed.",
+  "last_reply": "I’ll look for the original program, the build files, and the available decompiler tools, then trace the relevant functions before updating and rebuilding the app.\nThe original is a .NET program. The fresh native searches found no settings or widget names, and the existing audit warns that native pseudo-C misreads its managed code. I’ll complete the requested pseudocode calls and check the behavior against the managed instructions and references.\nAll 32 requested pseudocode calls have returned. The managed instructions confirm the serial settings, packet formulas, gauge geometry, text spacing, and artwork-backed bar behavior already in the build. I’m checking the remaining numeric formatting for discrepancies before rebuilding.\nThe fresh trace confirms the existing behavior. I’m moving the verified serial settings and sensor initialization flag into shared constants used by the build. I also found a conflicting device-count ordinal in an older mechanics table; I’m checking it against the original’s native-call declarations.\nThe code and mechanics documentation are updated. All 64 release tests pass, along with formatting and whitespace checks. I’m rebuilding the portable ZIP, then checking its contents and running Craft’s build, startup, and mechanics checks.\nCompleted 39 function inspections, awaiting every pseudocode result. Native output was invalid for this .NET program, so I verified its managed instructions and documented the rules and addresses in [MECHANICS.md](C:/Users/umbac/Documents/GitHub/uMonitor/app/MECHANICS.md).\n\nUpdated the build to use verified serial and sensor constants. Rebuilt and verified the [portable ZIP](C:/Users/umbac/Documents/GitHub/uMonitor/app/uMonitor-0.1.0-windows-x64-portable.zip). All 64 tests and Craft’s build, startup, and mechanics checks passed.",
   "asset_budget_usd": 5.0,
   "generate_assets": false
 }

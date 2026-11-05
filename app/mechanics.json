@@ -479,6 +479,30 @@
       "group": "charts",
       "value": "truncate(float32(GHz*1000)/float32(8000)*float32(length)), bounded to saved length",
       "source": "managed controller RVA 0x12418 IL_0809..0822; upper bound IL_08e0..092b -> IL_05fb..0604; app/evidence/deep-frequency-audit.json"
+    },
+    {
+      "name": "serial stop bits",
+      "group": "serial",
+      "value": 1,
+      "source": "UsbMonitor.exe RVA0x2ebb0 VA0x42ebb0 IL01fb..0211; ev_5b429bbc508713f9c4208fcaf633f10ae8789326ec9f8f5c941b1e320664186d; evidence/deep-request-audit.json; src/original.rs SERIAL_STOP_BITS/SERIAL_PARITY -> runtime.rs; MECHANICS.md"
+    },
+    {
+      "name": "serial parity",
+      "group": "serial",
+      "value": "none",
+      "source": "UsbMonitor.exe RVA0x2ebb0 VA0x42ebb0 IL01fb..0211; ev_5b429bbc508713f9c4208fcaf633f10ae8789326ec9f8f5c941b1e320664186d; evidence/deep-request-audit.json; src/original.rs SERIAL_STOP_BITS/SERIAL_PARITY -> runtime.rs; MECHANICS.md"
+    },
+    {
+      "name": "hardware initialization flags",
+      "group": "sensors",
+      "value": 64,
+      "source": "RVA0x46498 IL00a9..00ab -> RVA0x44cac IL00ad..00b2 -> token0600026f ordinal684. ev_f2e00f74b0a9f76b8b596a184a0e68bae4bee2c49c1556ec64dc51777750ea01; evidence/deep-request-audit.json; src/original.rs HARDWARE_INIT_FLAGS -> hwinfo.rs; MECHANICS.md"
+    },
+    {
+      "name": "hardware device count ordinal",
+      "group": "sensors",
+      "value": 630,
+      "source": "Discovery RVA0x41b08 IL0351 calls token06000273, cdecl int(), entry point #630; token06000271 #515 is separate. ev_4592c9207f73d8cfdc888ab59deedc4b39306bbfa69c8ea52d0ba3471f1b9501; ev_f2e00f74b0a9f76b8b596a184a0e68bae4bee2c49c1556ec64dc51777750ea01; evidence/deep-request-audit.json; src/original.rs HARDWARE_COUNT_ORDINAL -> hwinfo.rs; MECHANICS.md"
     }
   ]
 }

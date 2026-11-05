@@ -1,5 +1,21 @@
 # Verification
 
+## Fresh requested Deep-mode audit (2026-11-05)
+
+Reopened the original main executable in Deep mode; completed the three native string searches, followed native and managed references, and awaited/read **39 native pseudocode responses**. The self-contained `evidence/deep-request-audit.json` contains all responses, **39 matching managed bodies**, **1,246 incoming managed references**, decoded literals and native-call declarations. Every native record was checked against its ledger file. Native pseudo-C is invalid for this CLR assembly; the recovered rules use managed IL.
+
+`runtime.rs` now uses shared recovered serial framing/DTR/RTS constants; `hwinfo.rs` uses the shared recovered initialization flag and eight API ordinals from `original.rs`. The older mechanics table's conflicting device-count ordinal is corrected to **630**, traced through discovery RVA0x41b08 IL0351 -> token06000273. No original program execution or physical display equivalence is claimed.
+
+`cargo test --release --offline --locked`: **64 passed, 0 failed**. `cargo fmt --check` and `git diff --check` pass. The audit contains **80 mechanics values**, with recovered behavior kept distinct from independent editor choices. Final portable integrity/config verification is saved in `evidence/deep-request-package-check.json`; the final Craft build/startup/mechanics report is saved in `evidence/deep-request-craft-check.json`. The standard packaging command is `powershell -NoProfile -File .\build.ps1 -Offline`, with every source config/example included.
+
+## Resumed original-mechanics build (2026-11-05)
+
+Reviewed the saved investigation checklist, handoff, current source and `MECHANICS.md`; `core_unknowns_show` has no recorded unknowns. The latest artwork-backed legacy bar correction and its regression were already present, while the final build checklist remained unfinished. The source documentation records all 31 completed native responses and the matching managed IL used for the recovered rules.
+
+`cargo test --release --offline --locked`: **64 passed, 0 failed**, including artwork-backed and solid legacy bars, cached rendering, JSON/legacy persistence and older-design defaults. `cargo fmt --check` and `git diff --check` pass. Fresh Craft `rebuild_check` passes build, startup rendering (**3450 x 2125**) and **76 mechanics values (64 sourced, 12 independent estimates)**. Report: `evidence/resume-craft-check.json`.
+
+The standard final build command remains `powershell -NoProfile -File .\build.ps1 -Offline`; it refreshes the portable ZIP and checksum with the entire config directory. Package integrity/config comparison and extracted-package launch reports are saved separately under `evidence/`. Physical display output, exact GDI+ pixels and original-app legacy-export acceptance remain unverified.
+
 ## Fresh original inspection and fixed text columns (2026-11-05)
 
 Opened the original main executable in Deep mode; completed three native name/settings/message searches, three native reference checks, and **40 individually awaited/read native pseudocode requests**. `evidence/deep-columns-audit.json` contains the full native responses, matching valid managed bodies, decoded strings, ABI metadata and **1,245 incoming managed references**. Validated all 40 distinct addresses and 48 cited ledger records. Native Ghidra output is invalid for CLR; a separate ILSpy C# request was refused by the tool's approval policy. The recovered behavior uses the valid managed instructions and token references. The original program was not executed.

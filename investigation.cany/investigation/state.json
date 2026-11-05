@@ -1,5 +1,5 @@
 {
-  "revision": 22,
+  "revision": 30,
   "brief": {
     "question": "Verify the original UsbMonitor main executable in Deep mode: search names, settings and messages, follow references, await relevant pseudocode, recover actual formulas and rules and reconcile the build.",
     "purpose": "Replace assumptions with traceable original-program evidence and produce a verified current portable build.",
@@ -16,18 +16,19 @@
   },
   "plan": [
     {
-      "title": "Open original, search names/settings/messages and follow references",
+      "title": "Reopen original, search names/settings/messages and trace references",
       "status": "done",
-      "why": "Deep mode confirmed; original opened; three string searches and native xrefs completed; decoded managed names/settings/messages followed by tokens."
+      "why": "Fresh searches0/0/1, native reference checks, full managed inventory and field/method references completed."
     },
     {
-      "title": "Read relevant pseudocode and managed IL, reconcile mechanics and implementation",
-      "status": "doing",
-      "why": "All31 native responses awaited/read, with31 matching managed bodies and1238 incoming references saved. Corrected barType0 background restoration;64 tests pass; documenting recovered values."
+      "title": "Await pseudocode and read valid managed bodies; reconcile build and mechanics",
+      "status": "done",
+      "why": "39 native responses and matching managed bodies plus1246 references saved in deep-request-audit.json. Recovered serial/hardware constants wired into runtime; MECHANICS and80-value sheet updated."
     },
     {
-      "title": "Rebuild portable package, verify and run Craft checks",
-      "status": "todo"
+      "title": "Build portable ZIP, verify package and run Craft rebuild_check",
+      "status": "done",
+      "why": "64 release tests and formatting pass. Standard build.ps1 -Offline completed after final docs. Portable545 files with all5 config files passes CRC,manifest,SHA,imports and byte comparison. Craft build/startup3450x2125/mechanics80(68 sourced,12 independent) pass; screenshot reviewed."
     }
   ],
   "hypotheses": [],
@@ -59,8 +60,17 @@
         "ev_947322eacbc638a52bea87faed1fb738367b6b7b26c52deaad7daa60d199a9c6"
       ],
       "confidence": "observed"
+    },
+    {
+      "id": "fnd_4",
+      "statement": "Fresh original discovery RVA0x41b08 IL0351 calls method token06000273, whose cdecl int() P/Invoke entry is ordinal630. Ordinal515 belongs to separate token06000271 at IL036e; corrected the older conflicting mechanics table, and serial framing/signals plus hardware flags/ordinals now come from the shared recovered constants.",
+      "evidence_ids": [
+        "ev_f2e00f74b0a9f76b8b596a184a0e68bae4bee2c49c1556ec64dc51777750ea01",
+        "ev_4592c9207f73d8cfdc888ab59deedc4b39306bbfa69c8ea52d0ba3471f1b9501"
+      ],
+      "confidence": "observed"
     }
   ],
-  "handoff": "Completed portable-always-build request (2026-11-05). User explicitly requires a fresh portable ZIP with the entire config directory and all examples on every completed build. New app/build.ps1 is standard build entrypoint and invokes scripts/package-portable.ps1, building release and writing app/uMonitor-<version>-windows-x64-portable.zip plus .sha256 by default. app/AGENTS.md preserves this requirement for future work, including after Craft checks. Packaging copies config recursively with -Force and uses .NET ZipFile to retain hidden files and empty directories, stages the new ZIP before replacing the old one, and manifests all files. Added app/config/README.md; updated app README/PORTABLE. verify-portable.py compares every source config byte and directory in addition to existing integrity/import/example checks. Standard powershell -NoProfile -File app/build.ps1 -Offline passed; final app/uMonitor-0.1.0-windows-x64-portable.zip is 12,799,301 bytes, 545 files, including all 4 config examples plus config README; SHA256 0faa9ff59f1087c58130c3cd4c5b6e2c04ffb53c27a47f12ef88d469f591833d. Binary content matches current release exactly (exe SHA256 ab2c7133f99dd41b2f7cd6f517692b44e3c9e0d7d87acc726c6f458a403095c3). Full archive CRC/manifest/SHA/import/config checks pass (app/evidence/portable-build-verification.json). Extracted package in folder with spaces launches landscape/portrait/ticker screenshots and hardware helper successfully (portable-smoke.json). Optional hidden-fixture/recursive cleanup command was blocked by policy without running; instead safe target/ scratch config copy verified acceptance of exact config and rejection of stale files, missing nested files and missing empty directories (portable-config-regression.json). No config fixtures left in source. Craft rebuild_check passed build, startup screenshot3450x2125 and75 mechanics63 sourced12estimated; portable-build-craft-check.json saved. Formatting and diff checks pass. Unrelated existing source/session changes preserved. No task work remains; keep building the portable ZIP on future completed builds.",
-  "updated": "2026-11-05T07:37:49Z"
+  "handoff": "Completed fresh user-requested original audit 2026-11-05. Reopened C:\\Program Files\\35inchENG\\UsbMonitor.exe with core_target_open in Deep mode, hash a980a69b634fe6cb3a20173293d23f5728855f41b62748cf6a4b5b9406f972ab. Fresh native_strings_find names/settings/messages0/0/1; native references at manifest/controller/packet builder empty. Awaited all39 native_function_pseudocode calls sequentially and read full responses. Native Ghidra pseudo-C is invalid for this CLR assembly; conclusions rely on valid managed IL and tokens. app/evidence/deep-request-audit.json preserves39 complete native responses,39 matching managed bodies,1246 incoming managed references,decoded strings and native boundaries. Audited all response records against ledger. Fresh managed IDs ev_5b429bbc508713f9c4208fcaf633f10ae8789326ec9f8f5c941b1e320664186d and ev_f2e00f74b0a9f76b8b596a184a0e68bae4bee2c49c1556ec64dc51777750ea01. Source changes centralize serial8N1/DTR/RTS and hardware flags64/eight ordinals in original.rs; runtime.rs and hwinfo.rs use them directly. Values preserve existing behavior. Corrected older MECHANICS table: device count is ordinal630 token06000273 at discovery RVA41b08 IL0351;515 is separate token06000271. MECHANICS.md has current real values/formulas/rules/addresses and decompiler caveat. mechanics.json80 entries. cargo test --release --offline --locked64 passed,fmt and normal git diff --check pass. (An unnecessary git invocation with core.autocrlf=false misclassified existing CRLF as whitespace; normal configured git check passes, no persistent setting changed.) Final app/build.ps1 -Offline after final docs rebuilt app/target/release/uMonitor.exe SHA2565d7092e8b72dc3bae57bc710205e0bed39a3ff137207d4cde33ce65032e4e9cb and portable ZIP12,803,555 bytes545 files,all5 config files including4 examples+README; SHA256db396a47f48abcfc8c1eadd2cae7e0d25b6d03d48c977c1048b7ae54d0cce7aa. verify-portable passes CRC/manifest/hash/Windows imports and allsourceconfig byte comparison; zip MECHANICS/exe match current. Reports app/evidence/deep-request-package-check.json and deep-request-craft-check.json. Final Craft rebuild_check passes build,startup screenshot3450x2125(visually reviewed),80 mechanics68sourced12independent. No task work remains. Preserve existing workspace/personal sessions. Physical hardware output,exact GDI+ pixels,successful original sensor acquisition and original-app snapshot acceptance remain unverified.",
+  "updated": "2026-11-05T11:14:09Z"
 }
