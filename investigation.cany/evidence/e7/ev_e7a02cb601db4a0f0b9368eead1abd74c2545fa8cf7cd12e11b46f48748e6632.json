@@ -1,0 +1,49 @@
+{
+  "id": "ev_e7a02cb601db4a0f0b9368eead1abd74c2545fa8cf7cd12e11b46f48748e6632",
+  "subject": {
+    "kind": "managed",
+    "sha256": "a980a69b634fe6cb3a20173293d23f5728855f41b62748cf6a4b5b9406f972ab",
+    "name": "UsbMonitor.exe"
+  },
+  "operation": "native_strings_find",
+  "params": {
+    "case_sensitive": false,
+    "limit": 200,
+    "mode": "regex",
+    "offset": 0,
+    "pattern": "baud|brightness|invertLcd|mirrorMode|useInternal|interval|V2|AppConfig"
+  },
+  "result": {
+    "matches": [
+      {
+        "address": "0x524c78",
+        "references": [],
+        "section": ".rsrc",
+        "text": "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<assembly manifestVersion=\"1.0\" xmlns=\"urn:schemas-microsoft-com:asm.v1\">\r\n  <assemblyIdentity version=\"1.0.0.0\" name=\"MyApplication.app\" />\r\n  <trustInfo xmlns=\"urn:schemas-microsoft-com:asm.v2\">\r\n    <security>\r\n      <requestedPrivileges xmlns=\"urn:schemas-microsoft-com:asm.v3\">\r\n        <!-- UAC 清单选项\r\n             如果想要更改 Windows 用户帐户控制级别，请使用\r\n             以下节点之一替换 requestedExecutionLevel 节点。n\r\n        <requestedExecutionLevel  level=\"asInvoker\" uiAccess=\"false\"/>\r\n        <requestedExecutionLevel  level=\"requireAdministrator\" uiAccess=\"false\"/>\r\n        <requestedExecutionLevel  level=\"highestAvailable\" uiAccess=\"false\"/>\r\n\r\n            指定 requestedExecutionLevel 元素将禁用文件和注册表虚拟化。\r\n            如果你的应用程序需要此虚拟化来实现向后兼容性，则删除此\r\n            元素。\r\n        -->\r\n        <requestedExecutionLevel level=\"requireAdministrator\" uiAccess=\"false\" />\r\n      </requestedPrivileges>\r\n      <applicationRequestMinimum>\r\n        <defaultAssemblyRequest permissionSetReference=\"Custom\" />\r\n        <PermissionSet class=\"System.Security.PermissionSet\" version=\"1\" ID=\"Custom\" SameSite=\"site\" Unrestricted=\"true\" />\r\n      </applicationRequestMinimum>\r\n    </security>\r\n  </trustInfo>\r\n  <compatibility xmlns=\"urn:schemas-microsoft-com:compatibility.v1\">\r\n    <application>\r\n      <!-- 设计此应用程序与其一起工作且已针对此应用程序进行测试的\r\n           Windows 版本的列表。取消评论适当的元素，\r\n           Windows 将自动选择最兼容的环境。 -->\r\n      <!-- Windows Vista -->\r\n      <!--<supportedOS Id=\"{e2011457-1546-43c5-a5fe-008deee3d3f0}\"/>-->\r\n      <!-- Windows 7 -->\r\n      <!--<supportedOS Id=\"{35138b9a-5d96-4fbd-8e2d-a2440225f93a}\"/>-->\r\n      <!-- Windows 8 -->\r\n      <!--<supportedOS Id=\"{4a2f28e3-53b9-4441-ba9c-d69d4a4a6e38}\"/>-->\r\n      <!-- Windows 8.1 -->\r\n      <!--<supportedOS Id=\"{1f676c76-80e1-4239-95bb-83d0f6d0da78}\"/>-->\r\n      <!-- Windows 10 -->\r\n      <!--<supportedOS Id=\"{8e0f7a12-bfb3-4fe8-b9a5-48fd50a15a9a}\"/>-->\r\n    </application>\r\n  </compatibility>\r\n  <!-- 指示该应用程序可以感知 DPI 且 Windows 在 DPI 较高时将不会对其进行\r\n       自动缩放。Windows Presentation Foundation (WPF)应用程序自动感知 DPI，无需\r\n       选择加入。选择加入此设置的 Windows 窗体应用程序(目标设定为 .NET Framework 4.6 )还应\r\n       在其 app.config 中将 \"EnableWindowsFormsHighDpiAutoResizing\" 设置设置为 \"true\"。-->\r\n  <!--\r\n  <application xmlns=\"urn:schemas-microsoft-com:asm.v3\">\r\n    <windowsSettings>\r\n      <dpiAware xmlns=\"http://schemas.microsoft.com/SMI/2005/WindowsSettings\">true</dpiAware>\r\n    </windowsSettings>\r\n  </application>\r\n  -->\r\n  <!-- 启用 Windows 公共控件和对话框的主题(Windows XP 和更高版本) -->\r\n  <!--\r\n  <dependency>\r\n    <dependentAssembly>\r\n      <assemblyIdentity\r\n          type=\"win32\"\r\n          name=\"Microsoft.Windows.Common-Controls\"\r\n          version=\"6.0.0.0\"\r\n          processorArchitecture=\"*\"\r\n          publicKeyToken=\"6595b64144ccf1df\"\r\n          language=\"*\"\r\n       />\r\n    </dependentAssembly>\r\n  </dependency>\r\n  -->\r\n</assembly>"
+      }
+    ],
+    "total": 1
+  },
+  "summary": "1 strings match \"baud|brightness|invertLcd|mirrorMode|useInternal|interval|V2|AppConfig\".",
+  "confidence": "observed",
+  "authority": "original-files",
+  "environment": {
+    "clean_room": false,
+    "engine": "builtin",
+    "engine_version": "0.3.0",
+    "host": "windows-x86_64"
+  },
+  "limitations": [
+    {
+      "code": "data_sections_only",
+      "message": "only strings stored in the file are searched (absence is not proof)"
+    }
+  ],
+  "coverage": {
+    "status": "complete",
+    "examined": 1,
+    "total": 1
+  },
+  "locations": [],
+  "links": []
+}

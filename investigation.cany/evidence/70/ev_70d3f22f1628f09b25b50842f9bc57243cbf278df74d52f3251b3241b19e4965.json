@@ -1,0 +1,49 @@
+{
+  "id": "ev_70d3f22f1628f09b25b50842f9bc57243cbf278df74d52f3251b3241b19e4965",
+  "subject": {
+    "kind": "managed",
+    "sha256": "a980a69b634fe6cb3a20173293d23f5728855f41b62748cf6a4b5b9406f972ab",
+    "name": "UsbMonitor.exe"
+  },
+  "operation": "native_function_pseudocode",
+  "params": {
+    "function": "0x44f80c"
+  },
+  "result": {
+    "engine": "ghidra",
+    "entry": "0x44f80c",
+    "function": "FUN_0044f80c",
+    "pseudo_code": "\r\n/* WARNING: Control flow encountered bad instruction data */\r\n\r\nvoid FUN_0044f80c(void)\r\n\r\n{\r\n                    /* WARNING: Bad instruction - Truncating control flow here */\r\n  halt_baddata();\r\n}\r\n\r\n",
+    "signature": "void FUN_0044f80c(void);"
+  },
+  "summary": "Pseudo-C for FUN_0044f80c from the Deep engine (10 lines).",
+  "confidence": "derived",
+  "authority": "original-files",
+  "environment": {
+    "clean_room": false,
+    "engine": "ghidra",
+    "engine_version": "12.1.4",
+    "host": "windows-x86_64"
+  },
+  "limitations": [
+    {
+      "code": "deep_engine",
+      "message": "the pseudo-C comes from the external Deep engine (Ghidra), not the original source"
+    },
+    {
+      "code": "made_on_demand",
+      "message": "Ghidra's analysis had no function here, so it made one starting at this address (for this session, never saved); its bounds come from following the code from there"
+    }
+  ],
+  "coverage": {
+    "status": "unknown"
+  },
+  "locations": [
+    {
+      "kind": "address",
+      "value": "0x44f80c"
+    }
+  ],
+  "links": [],
+  "carries_target_content": true
+}

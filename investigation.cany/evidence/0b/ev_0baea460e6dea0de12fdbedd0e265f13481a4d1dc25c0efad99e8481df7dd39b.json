@@ -1,0 +1,49 @@
+{
+  "id": "ev_0baea460e6dea0de12fdbedd0e265f13481a4d1dc25c0efad99e8481df7dd39b",
+  "subject": {
+    "kind": "managed",
+    "sha256": "a980a69b634fe6cb3a20173293d23f5728855f41b62748cf6a4b5b9406f972ab",
+    "name": "UsbMonitor.exe"
+  },
+  "operation": "native_function_pseudocode",
+  "params": {
+    "function": "0x42e808"
+  },
+  "result": {
+    "engine": "ghidra",
+    "entry": "0x42e808",
+    "function": "FUN_0042e754",
+    "pseudo_code": "\r\n/* WARNING: Control flow encountered bad instruction data */\r\n/* WARNING: Instruction at (ram,0x0042e7e3) overlaps instruction at (ram,0x0042e7e0)\r\n    */\r\n\r\nvoid FUN_0042e754(char *param_1,undefined8 param_2)\r\n\r\n{\r\n  char *pcVar1;\r\n  byte bVar2;\r\n  byte bVar3;\r\n  uint uVar4;\r\n  int *in_RAX;\r\n  int *piVar6;\r\n  byte bVar8;\r\n  char cVar9;\r\n  char cVar10;\r\n  undefined6 uVar11;\r\n  undefined1 unaff_BL;\r\n  byte unaff_BH;\r\n  undefined6 unaff_0000001a;\r\n  ulonglong uVar12;\r\n  int unaff_ESI;\r\n  longlong unaff_RDI;\r\n  byte in_CF;\r\n  char in_AF;\r\n  undefined1 auStack_20 [32];\r\n  uint *puVar5;\r\n  byte *pbVar7;\r\n  \r\n  uVar11 = (undefined6)((ulonglong)param_2 >> 0x10);\r\n  cVar9 = (char)param_2;\r\n  bVar2 = (char)in_RAX + (char)*in_RAX;\r\n  puVar5 = (uint *)CONCAT71((int7)((ulonglong)in_RAX >> 8),bVar2);\r\n  pcVar1 = (char *)((ulonglong)(unaff_ESI + *in_RAX + (uint)in_CF) + 4);\r\n  *(byte *)puVar5 = (byte)*puVar5 + bVar2;\r\n  *param_1 = *param_1 + bVar2;\r\n  uVar4 = *puVar5;\r\n  *(byte *)puVar5 = (byte)*puVar5 + bVar2;\r\n  *puVar5 = *puVar5 + (int)&stack0x00000000 + (uint)CARRY1((byte)uVar4,bVar2);\r\n  uVar4 = (uint)puVar5;\r\n  *puVar5 = *puVar5 + uVar4;\r\n  if ((POPCOUNT(*puVar5 & 0xff) & 1U) != 0) {\r\n    *(byte *)(puVar5 + 0x1a) = (byte)puVar5[0x1a] + (char)param_1;\r\n    *(byte *)puVar5 = (byte)*puVar5 + bVar2;\r\n  }\r\n  *pcVar1 = *pcVar1 + -1;\r\n  *(byte *)puVar5 = (byte)*puVar5 + bVar2;\r\n  DAT_4842e76f = DAT_4842e76f + -1;\r\n  bVar8 = (char)((ulonglong)param_1 >> 8) + (char)((ulonglong)in_RAX >> 8);\r\n  *(byte *)puVar5 = (byte)*puVar5 | bVar2;\r\n  *pcVar1 = *pcVar1 + -1;\r\n  *(byte *)puVar5 = (byte)*puVar5 + bVar2;\r\n  cVar10 = (char)((ulonglong)param_2 >> 8) + unaff_BH * '\\x05';\r\n  *(byte *)(unaff_RDI + 0x256c49) = *(byte *)(unaff_RDI + 0x256c49) & unaff_BH;\r\n  *pcVar1 = *pcVar1 + -1;\r\n  *(char *)(ulonglong)(uVar4 | 0x48000000) = *(char *)(ulonglong)(uVar4 | 0x48000000) + bVar2;\r\n  uVar4 = (uVar4 | 0x48000000) + *(int *)(ulonglong)(uVar4 | 0x48000000);\r\n  *pcVar1 = *pcVar1 + -1;\r\n  bVar3 = (byte)uVar4;\r\n  *(char *)(ulonglong)uVar4 = *(char *)(ulonglong)uVar4 + bVar3;\r\n  piVar6 = (int *)(ulonglong)(uVar4 | 0x48000000);\r\n  *(byte *)piVar6 = (char)*piVar6 + bVar3;\r\n  *(byte *)piVar6 = (char)*piVar6 + bVar3;\r\n  *(byte *)piVar6 = (char)*piVar6 + bVar3;\r\n  *(byte *)CONCAT62(unaff_0000001a,CONCAT11(unaff_BH,unaff_BL)) =\r\n       *(char *)CONCAT62(unaff_0000001a,CONCAT11(unaff_BH,unaff_BL)) + bVar8;\r\n  *(byte *)piVar6 = (char)*piVar6 + bVar3;\r\n  *(byte *)piVar6 = (char)*piVar6 + bVar3;\r\n  *(byte *)piVar6 = (char)*piVar6 + bVar3;\r\n  bVar2 = *(byte *)CONCAT62(unaff_0000001a,CONCAT11(unaff_BH,unaff_BL));\r\n  *(byte *)CONCAT62(unaff_0000001a,CONCAT11(unaff_BH,unaff_BL)) =\r\n       *(char *)CONCAT62(unaff_0000001a,CONCAT11(unaff_BH,unaff_BL)) + bVar8;\r\n  uVar12 = (ulonglong)((int)auStack_20 + *piVar6 + (uint)CARRY1(bVar2,bVar8));\r\n  *(byte *)piVar6 = (char)*piVar6 + bVar3;\r\n  pbVar7 = (byte *)(ulonglong)(uVar4 | 0x48000000);\r\n  *(undefined8 *)(uVar12 - 8) = 0x20142b26;\r\n  bVar2 = *pbVar7;\r\n  *pbVar7 = *pbVar7 + bVar3;\r\n  uVar4 = CONCAT22((short)((uVar4 | 0x48000000) >> 0x10),\r\n                   CONCAT11(((char)*pbVar7 < '\\0') << 7 | (*pbVar7 == 0) << 6 | in_AF << 4 |\r\n                            ((POPCOUNT(*pbVar7) & 1U) == 0) << 2 | 2U | CARRY1(bVar2,bVar3),bVar3));\r\n  puVar5 = (uint *)(ulonglong)uVar4;\r\n  *puVar5 = *puVar5 ^ uVar4;\r\n  *pcVar1 = *pcVar1 + -1;\r\n  *(byte *)puVar5 = (char)*puVar5 + bVar3;\r\n  uVar4 = uVar4 | 0x48000000;\r\n  pbVar7 = (byte *)(ulonglong)uVar4;\r\n  *(undefined8 *)(uVar12 - 0x10) = 0xe92b;\r\n  *pbVar7 = *pbVar7 & bVar3;\r\n  pbVar7[0x6a] = pbVar7[0x6a] + 0x2d;\r\n  *pcVar1 = *pcVar1 + -1;\r\n  *pbVar7 = *pbVar7 + bVar3;\r\n  DAT_4842e7f9 = DAT_4842e7f9 + -1;\r\n  *(undefined8 *)(uVar12 - 0x18) = 0x39;\r\n  *(byte *)CONCAT62(uVar11,CONCAT11(cVar10,cVar9)) =\r\n       *(char *)CONCAT62(uVar11,CONCAT11(cVar10,cVar9)) + bVar3;\r\n  *(uint *)pbVar7 = *(int *)pbVar7 + uVar4;\r\n  bVar3 = bVar3 + 0x2a;\r\n  pbVar7 = (byte *)(ulonglong)CONCAT31((int3)(uVar4 >> 8),bVar3);\r\n  *(char *)CONCAT62(unaff_0000001a,CONCAT11(unaff_BH,unaff_BL)) =\r\n       *(char *)CONCAT62(unaff_0000001a,CONCAT11(unaff_BH,unaff_BL)) + cVar9;\r\n  *(byte *)CONCAT62(uVar11,CONCAT11(cVar10,cVar9)) =\r\n       *(byte *)CONCAT62(uVar11,CONCAT11(cVar10,cVar9)) ^ bVar3;\r\n  pbVar7[0x1000000] = pbVar7[0x1000000] - 2;\r\n  bVar2 = *pbVar7;\r\n  *pbVar7 = *pbVar7 + bVar3;\r\n  *(uint *)pbVar7 = *(int *)pbVar7 + (int)(uVar12 - 0x18) + (uint)CARRY1(bVar2,bVar3);\r\n  DAT_4842e823 = DAT_4842e823 + -1;\r\n  *(undefined8 *)(uVar12 - 0x20) = 0xffffffff81bc8320;\r\n                    /* WARNING: Bad instruction - Truncating control flow here */\r\n  halt_baddata();\r\n}\r\n\r\n",
+    "signature": "void FUN_0042e754(char *param_1,undefined8 param_2);"
+  },
+  "summary": "Pseudo-C for FUN_0042e754 from the Deep engine (114 lines).",
+  "confidence": "derived",
+  "authority": "original-files",
+  "environment": {
+    "clean_room": false,
+    "engine": "ghidra",
+    "engine_version": "12.1.4",
+    "host": "windows-x86_64"
+  },
+  "limitations": [
+    {
+      "code": "deep_engine",
+      "message": "the pseudo-C comes from the external Deep engine (Ghidra), not the original source"
+    },
+    {
+      "code": "made_on_demand",
+      "message": "Ghidra's analysis had no function here, so it made one starting at this address (for this session, never saved); its bounds come from following the code from there"
+    }
+  ],
+  "coverage": {
+    "status": "unknown"
+  },
+  "locations": [
+    {
+      "kind": "address",
+      "value": "0x42e808"
+    }
+  ],
+  "links": [],
+  "carries_target_content": true
+}

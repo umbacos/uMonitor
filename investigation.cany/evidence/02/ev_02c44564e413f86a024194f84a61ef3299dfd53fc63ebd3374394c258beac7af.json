@@ -1,0 +1,42 @@
+{
+  "id": "ev_02c44564e413f86a024194f84a61ef3299dfd53fc63ebd3374394c258beac7af",
+  "subject": {
+    "kind": "managed",
+    "sha256": "a980a69b634fe6cb3a20173293d23f5728855f41b62748cf6a4b5b9406f972ab",
+    "name": "UsbMonitor.exe"
+  },
+  "operation": "native_strings_find",
+  "params": {
+    "case_sensitive": false,
+    "limit": 100,
+    "mode": "regex",
+    "offset": 0,
+    "pattern": "AppConfig|ThemeConfig|mirrorMode|invertLcd|brightness|baud|SerialPort"
+  },
+  "result": {
+    "matches": [],
+    "total": 0
+  },
+  "summary": "0 strings match \"AppConfig|ThemeConfig|mirrorMode|invertLcd|brightness|baud|SerialPort\".",
+  "confidence": "observed",
+  "authority": "original-files",
+  "environment": {
+    "clean_room": false,
+    "engine": "builtin",
+    "engine_version": "0.3.0",
+    "host": "windows-x86_64"
+  },
+  "limitations": [
+    {
+      "code": "data_sections_only",
+      "message": "only strings stored in the file are searched (absence is not proof)"
+    }
+  ],
+  "coverage": {
+    "status": "complete",
+    "examined": 0,
+    "total": 0
+  },
+  "locations": [],
+  "links": []
+}

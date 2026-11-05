@@ -9,7 +9,7 @@ uMonitor is a visual dashboard editor for system readings, weather, stock quotes
 ## Get started
 
 1. Extract **`uMonitor-0.1.0-windows-x64-portable.zip`** into a writable folder.
-2. Run **`uMonitor.exe`**, keeping `msvcr120d.dll` beside it.
+2. Run **`uMonitor.exe`**, approve the Windows administrator prompt, and keep `msvcr120d.dll` beside it. Canceling the prompt closes the app.
 3. Choose **New** for a starter layout, or **Open** to load an example from `config`.
 4. Drag widgets onto the canvas. Select a widget to change its appearance and **Data binding** in Properties.
 5. In **Display settings**, choose the display's COM port. Use **Upload to screen** for one upload or enable continuous streaming.
@@ -59,6 +59,8 @@ The package includes the existing HWiNFO sensor client **`msvcr120d.dll`**. Desp
 
 Minimize to the Windows tray to keep updates running. Click the tray icon to reopen; right-click for Open, Windows startup and Exit. Connection changes are reflected in the tray icon.
 
+Only one uMonitor editor can run at a time in your Windows session. Launching it again shows an "already running" message and closes the extra launch, including when the editor is minimized to the tray.
+
 ## Example configurations
 
 | File | Example |
@@ -92,21 +94,23 @@ The app creates **`cockpit-session.json` beside the executable**, retaining its 
 The application source is the directory containing `Cargo.toml` (the `app` directory in a Craft project). Install stable Rust for `x86_64-pc-windows-msvc`, Visual Studio C++ Build Tools and the Windows SDK. Keep the bundled sensor library in that source directory.
 
 ```powershell
-cargo build --release --locked
+powershell -NoProfile -File .\build.ps1
 cargo test --release --locked
 cargo fmt --check
 .\target\release\uMonitor.exe
 ```
 
-The Windows target configuration links the C runtime statically. The build script embeds the application icon/version information and copies the sensor DLL beside the executable. Dependencies must be downloaded for a first build; add `--offline` when they are already cached.
+Every completed build creates the release executable and **`uMonitor-0.1.0-windows-x64-portable.zip`** with its `.sha256` checksum in this source directory. The archive includes the entire `config/` directory: examples, instructions, nested assets and hidden files. Use `-OutputDirectory` to choose another destination and `-Offline` when dependencies are cached.
 
-To regenerate a portable archive, run from the source directory:
+The Windows target configuration links the C runtime statically. The Rust build script embeds the application icon/version information and copies the sensor DLL beside the executable. Dependencies must be downloaded for a first build.
+
+The packaging script can also be invoked directly from the source directory:
 
 ```powershell
 powershell -NoProfile -File scripts/package-portable.ps1 -OutputDirectory .
 ```
 
-The script builds the release, copies only distribution files, includes dependency notices, and creates a ZIP plus its `.sha256` checksum. Use `-Offline` for cached builds. With Python available, verify archive contents, hashes and Windows imports using `python scripts/verify-portable.py uMonitor-0.1.0-windows-x64-portable.zip`. Maintainers can regenerate the examples with `python scripts/generate_examples.py`.
+The script builds the release, copies distribution files, includes dependency notices, and creates a ZIP plus its `.sha256` checksum. With Python available, verify archive contents, hashes, Windows imports and every source config file using `python scripts/verify-portable.py uMonitor-0.1.0-windows-x64-portable.zip`. Maintainers can regenerate the examples with `python scripts/generate_examples.py`.
 
 For an isolated screenshot that does not read or overwrite the current session or stream to the display:
 

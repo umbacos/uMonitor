@@ -395,10 +395,7 @@ fn text_line(
     });
     let sx = metrics.map_or(1., |m| m.cell_width * ratio / reference.width().max(1.));
     let sy = metrics.map_or(1., |m| m.cell_height * ratio / reference.height().max(1.));
-    let advance_scale = metrics.map_or(1., |m| {
-        m.advance * ratio / scaled.h_advance(zero.id).max(1.)
-    });
-    let digit_advance = scaled.h_advance(zero.id) * advance_scale;
+    let digit_advance = metrics.map_or_else(|| scaled.h_advance(zero.id), |m| m.advance * ratio);
     let mut pen = 0.;
     let mut previous = None;
     let mut glyphs = vec![];
@@ -408,9 +405,9 @@ fn text_line(
     for ch in s.chars().take(1024) {
         let glyph = scaled.scaled_glyph(ch);
         let digit = ch.is_ascii_digit();
-        if let Some((id, was_digit)) = previous {
+        if let Some((id, was_digit)) = previous.filter(|_| metrics.is_none()) {
             if !(digit && was_digit) {
-                pen += scaled.kern(id, glyph.id) * advance_scale;
+                pen += scaled.kern(id, glyph.id);
             }
         }
         if let Some(outline) = font.outline_glyph(glyph.clone()) {
@@ -433,14 +430,23 @@ fn text_line(
             bottom = bottom.max(y + b.height() * sy);
             glyphs.push((outline, x, y));
         }
-        pen += (if digit {
+        // TItem RVA 0x4f80c IL_0744..0751 / 0x500ec IL_01ea..01f7:
+        // every character advances by FontConfig.interval, with no kerning.
+        // Preserve the editor's explicit size/spacing adjustments on top.
+        pen += (if digit || metrics.is_some() {
             digit_advance
         } else {
-            scaled.h_advance(glyph.id) * advance_scale
+            scaled.h_advance(glyph.id)
         }) + spacing;
         previous = Some((glyph.id, digit));
     }
-    if glyphs.is_empty() {
+    if let Some(metrics) = metrics.filter(|_| !s.is_empty()) {
+        // TItem 0x500ec draws at posX, advancing even across blank 'x' cells.
+        // Keep cell margins and leading/trailing blanks instead of cropping
+        // them to the visible ink. Original glyph pixels remain approximate.
+        left = left.min(0.);
+        right = right.max(pen - digit_advance - spacing + metrics.cell_width * ratio);
+    } else if glyphs.is_empty() {
         return RgbaImage::new(1, 1);
     }
     let mut line = RgbaImage::new(
@@ -475,7 +481,10 @@ fn text_line(
             y.round() as i64,
         );
     }
-    // Align the visible edge, including punctuation and unit suffixes.
+    if metrics.is_some() {
+        return line;
+    }
+    // Ordinary editor text aligns its visible edge, including unit suffixes.
     let mut bounds = (line.width(), 0);
     for (x, _, p) in line.enumerate_pixels() {
         if p[3] > 0 {
@@ -664,7 +673,7 @@ fn draw_widget(img: &mut RgbaImage, w: &Widget, d: &DataState, _seconds: f64) {
                     w.legacy_text.as_ref(),
                     w.letter_spacing,
                 );
-                let x = if right {
+                let x = if right && w.legacy_text.is_none() {
                     img.width() as i64 - line.width() as i64
                 } else {
                     0
@@ -775,6 +784,11 @@ fn draw_widget(img: &mut RgbaImage, w: &Widget, d: &DataState, _seconds: f64) {
     } else {
         value.clone()
     };
+    let formatted = if w.legacy_text.is_some() && num.is_some_and(f64::is_finite) {
+        original::padded_sensor_text(&w.binding, w.decimals, formatted)
+    } else {
+        formatted
+    };
     let display = if !w.binding.is_empty() {
         format!("{}{}{}", w.unit_prefix, formatted, w.unit)
     } else {
@@ -867,7 +881,12 @@ fn draw_widget(img: &mut RgbaImage, w: &Widget, d: &DataState, _seconds: f64) {
             }
             let y = if w.show_label { height - 10. } else { 0. };
             let h = if w.show_label { 8. } else { height };
-            rect(img, 0., y, width, h, w.background);
+            // Original StatuBar0x60590 uses the composed screen as its track
+            // in ThemeConfig.barType0. Transparent pixels retain that artwork
+            // in both the preview and the shared image-upload framebuffer.
+            if !w.legacy_bar_image_background {
+                rect(img, 0., y, width, h, w.background);
+            }
             // Controller RVA 0x12418 IL_0809..0822 uses float MHz / 8000
             // for CpuFreq. Other supported bars promote the float to double,
             // multiply by .01 and length in that order, then truncate.
@@ -1012,6 +1031,43 @@ pub fn rgb565(img: &RgbaImage) -> Vec<u8> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn imported_blank_columns_keep_the_saved_origin_when_resized() {
+        let font = crate::fonts::resolve("Microsoft YaHei Bold", None).unwrap();
+        let metrics = LegacyText {
+            cell_width: 20.,
+            cell_height: 26.,
+            advance: 24.,
+            base_size: 20.,
+        };
+        for size in [20., 40.] {
+            let single = text_line("8", size, [255; 4], &font, Some(&metrics), 0.);
+            let padded = text_line("  8 ", size, [255; 4], &font, Some(&metrics), 0.);
+            let step = (24. * size / 20.) as u32;
+            assert_eq!(ink_bounds(&padded).0, ink_bounds(&single).0 + 2 * step);
+            assert_eq!(padded.width(), single.width() + 3 * step);
+        }
+
+        let mut widget = Widget::new(1, Kind::Value, 0., 0.);
+        widget.show_label = false;
+        widget.binding = "cpu.power".into();
+        widget.decimals = Some(0);
+        widget.size = 20.;
+        widget.w = 120.;
+        widget.h = 28.;
+        widget.legacy_text = Some(metrics);
+        let mut data = DataState::default();
+        data.values.insert("cpu.power".into(), "8".into());
+        let small = widget_tile(&widget, &data);
+        widget.w = 180.;
+        let large = widget_tile(&widget, &data);
+        assert_eq!(ink_bounds(&small), ink_bounds(&large));
+        assert_eq!(ink_bounds(&small).0, 48);
+        let restored: Widget =
+            serde_json::from_str(&serde_json::to_string(&widget).unwrap()).unwrap();
+        assert!(large == widget_tile(&restored, &data));
+    }
+
     #[test]
     fn bound_prefix_and_suffix_work_for_numbers_text_and_unavailable_values() {
         let mut w = Widget::new(1, Kind::Value, 0., 0.);
@@ -1310,7 +1366,16 @@ mod tests {
             for value in ["1", "88", "123.4", "N/A"] {
                 widget.text = value.into();
                 let b = ink_bounds(&widget_tile(&widget, &DataState::default()));
-                assert_eq!(b.2, 119, "right edge: {value}, imported={imported}");
+                if imported {
+                    // Original TItem draws from its saved posX, independent
+                    // of the editor selection rectangle's spare width.
+                    widget.w = 160.;
+                    let wider = ink_bounds(&widget_tile(&widget, &DataState::default()));
+                    assert_eq!(b, wider, "saved origin: {value}");
+                    widget.w = 120.;
+                } else {
+                    assert_eq!(b.2, 119, "editor right edge: {value}");
+                }
             }
         }
     }
@@ -1450,9 +1515,15 @@ mod tests {
             ] {
                 data.values.insert(binding.into(), reading.into());
                 let digits = if text == "0" && binding.ends_with("temperature") {
-                    "00"
+                    "00".to_owned()
                 } else {
-                    text
+                    // Literal PadLeft widths from controller RVA0x12418.
+                    let columns = match binding {
+                        "cpu.power" => 3,
+                        "gpu.memory" => 5,
+                        _ => 2,
+                    };
+                    format!("{text:>columns$}")
                 };
                 // A literal with a suffix bypasses numeric formatting, so this
                 // compares the real raster against the exact original text.
@@ -1466,7 +1537,12 @@ mod tests {
             if matches!(binding, "cpu.power" | "gpu.memory") {
                 // Neither amount has the separate percentage/temperature 99 cap.
                 data.values.insert(binding.into(), "1024.99".into());
-                expected.text = format!("1024{}", w.unit);
+                let digits = if binding == "gpu.memory" {
+                    " 1024"
+                } else {
+                    "1024"
+                };
+                expected.text = format!("{digits}{}", w.unit);
                 assert!(widget_tile(&w, &data) == widget_tile(&expected, &data));
                 assert_eq!(data.number(&w), Some(1024.99));
                 // Existing JSON imports retain the recovered formatting rule.
@@ -1511,11 +1587,11 @@ mod tests {
 
     #[test]
     fn imported_integer_sensor_fields_do_not_round_up_fractional_provider_readings() {
-        for (binding, suffix) in [
-            ("disk.temperature", " °C"),
-            ("cpu.fan", " RPM"),
-            ("gpu.fan", "%"),
-            ("volume.level", "%"),
+        for (binding, suffix, columns) in [
+            ("disk.temperature", " °C", 2),
+            ("cpu.fan", " RPM", 5),
+            ("gpu.fan", "%", 5),
+            ("volume.level", "%", 2),
         ] {
             let mut widget = Widget::new(1, Kind::Value, 0., 0.);
             widget.binding = binding.into();
@@ -1543,7 +1619,7 @@ mod tests {
                 ("-0.9", "0"),
             ] {
                 data.values.insert(binding.into(), raw.into());
-                expected.text = format!("[{digits}{suffix}]");
+                expected.text = format!("[{digits:>columns$}{suffix}]");
                 assert!(
                     widget_tile(&widget, &data) == widget_tile(&expected, &data),
                     "{binding}: {raw} must display {digits}"
@@ -1554,7 +1630,7 @@ mod tests {
             // Disk temperature and fan speeds have no recovered 99 ceiling.
             if binding != "volume.level" {
                 data.values.insert(binding.into(), "125.9".into());
-                expected.text = format!("[125{suffix}]");
+                expected.text = format!("[{:>columns$}{suffix}]", "125");
                 assert!(widget_tile(&widget, &data) == widget_tile(&expected, &data));
             }
             data.values.insert(binding.into(), "33.9".into());
@@ -1676,7 +1752,7 @@ mod tests {
                 // Shared bindings use decimal MB/s; imported fields use MiB/s.
                 let shared = rate * 1024. * 1024. / 1_000_000.;
                 data.values.insert(binding.into(), shared.to_string());
-                expected.text = format!("Rate {text} MiB/s");
+                expected.text = format!("Rate {text:>4} MiB/s");
                 assert!(
                     widget_tile(&widget, &data) == widget_tile(&expected, &data),
                     "{binding}: {rate} MiB/s must display {text}"
@@ -2026,6 +2102,50 @@ mod tests {
         let ordinary = widget_tile(&w, &data);
         w.legacy_arc_gaps = false;
         assert!(ordinary == widget_tile(&w, &data));
+    }
+    #[test]
+    fn imported_punctuation_and_spaces_keep_the_saved_glyph_interval() {
+        let font = crate::fonts::resolve("Segoe UI", None).expect("Windows UI font");
+        let metrics = LegacyText {
+            cell_width: 22.,
+            cell_height: 28.,
+            advance: 34.,
+            base_size: 40.,
+        };
+        // FontConfig survives saving an imported design as JSON.
+        let metrics: LegacyText =
+            serde_json::from_slice(&serde_json::to_vec(&metrics).unwrap()).unwrap();
+        for size in [20., 40., 60.] {
+            for spacing in [0., 2.] {
+                let paint = |text| text_line(text, size, [255; 4], &font, Some(&metrics), spacing);
+                let digit = paint("8");
+                let step = (metrics.advance * size / metrics.base_size + spacing) as u32;
+                for text in ["8.8", "8:8", "8/8", "8 8", "8A8", "8V8"] {
+                    let line = paint(text);
+                    assert_eq!(
+                        line.width(),
+                        digit.width() + 2 * step,
+                        "{text}, size {size}, extra spacing {spacing}"
+                    );
+                    for offset in [0, 2 * step] {
+                        assert_eq!(
+                            image::imageops::crop_imm(
+                                &line,
+                                offset,
+                                0,
+                                digit.width(),
+                                digit.height()
+                            )
+                            .to_image(),
+                            digit,
+                            "glyph changed at {offset} in {text}"
+                        );
+                    }
+                }
+            }
+        }
+        let ordinary = |text| text_line(text, 40., [255; 4], &font, None, 0.);
+        assert!(ordinary("8.8").width() < ordinary("888").width());
     }
     #[test]
     fn legacy_text_clips_without_changing_saved_glyph_size_or_advance() {

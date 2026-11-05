@@ -1,5 +1,152 @@
 # Original mechanics and Deep-mode audit
 
+## Current inspection and artwork-backed bars (2026-11-05, Europe/Rome)
+
+Opened the original main executable **C:\Program Files\35inchENG\UsbMonitor.exe** with `core_target_open` in **Deep mode**, SHA-256 **a980a69b634fe6cb3a20173293d23f5728855f41b62748cf6a4b5b9406f972ab**. Ran fresh `native_strings_find` searches for names, settings and messages (**0 / 0 / 1** matches). Followed the lone manifest hit **VA0x524c78**, controller **VA0x412418** and packet builder **VA0x42f8a4** with `native_xrefs_list`; native references were empty. The manifest's XML `asm.v2` is unrelated to the display revision. The actual encoded strings and settings were traced through managed method and field references.
+
+Completed **31 separate `native_function_pseudocode` requests**, awaiting and reading each complete response before the next. [evidence/deep-build-audit.json](evidence/deep-build-audit.json) preserves every response, **31 matching managed bodies**, decoded strings with offsets/keys, outgoing calls/field accesses and **1,238 incoming managed references**. Its inventory is **107 types, 974 methods, 946 IL bodies, 9,045 call sites and 985 fields**. [evidence/inspect-build.py](evidence/inspect-build.py) attaches reproducible decoded literals and the installed-theme mode observations.
+
+**Decompiler limitation:** native Ghidra misreads this CLR assembly's headers/IL as machine code, producing invalid pseudo-C. Those responses are inspection records; the behavioral evidence is the valid managed IL and resolved tokens. No successful native/C# decompilation or execution of the original is claimed.
+
+Fresh evidence IDs: names **ev_b143c253c2c014aa313fd83f97ed0b670d7b88bc7261ce5e0927be8bccba6f24**; settings **ev_02c44564e413f86a024194f84a61ef3299dfd53fc63ebd3374394c258beac7af**; messages **ev_c7b00fd637d9e8a5ab400049e0c5a49b66fae51529c7306ae65b89411488b18d**. Managed bodies **ev_6182981093b885fe9e33e020a9362aaf9d1f9410f97540c758d52f7163fca80f**; theme settings **ev_947322eacbc638a52bea87faed1fb738367b6b7b26c52deaad7daa60d199a9c6**; complete metadata **ev_c088ff94588c42eb04482782a0b30957738a5944a37a894f0433d59871568490**.
+
+### Recovered correction used by the build
+
+The importer had treated every legacy bar's unfilled area as a solid `backColor`. The original switches this behavior using **ThemeConfig.barType**:
+
+| Reference | Function RVA / preferred VA and observed rule |
+|---|---|
+| Live update | Controller **0x12208 / 0x412208 IL_017b** calls StatuBar update token **0x0600038b**, method **0x60590 / 0x460590**. |
+| Mode setting | Theme getter **0x62ba0 / 0x462ba0**, token **0x060003b9**, **IL_0098..009e** reads backing field **0x040003cf**, `<barType>k__BackingField`. Update **0x60590 IL_00d8..0105** tests equality with **0**. |
+| `barType == 0` | **0x60590 IL_0247..02c7** restores the rectangle **(posX + curLen, posY, length - curLen, height)** from the composed screen image, then transmits that rectangle. The untouched part follows the artwork under the bar. |
+| Other modes | **0x60590 IL_01a9..01ef** sends the saved background-color pixel data over the unfilled rectangle. |
+| Image origin | **0x10a38 / 0x410a38 IL_06c8..06eb** converts the composed bitmap to RGB565 and saves it using setter **0x2e754 / 0x42e754**, token **0x060001a3**, field **0x040001b8**. Getter **0x2e808 / 0x42e808 IL_00a1..00a7**, token **0x060001a4**, supplies it to the restoring branch. |
+
+`src/legacy.rs` now preserves `barType == 0` as **legacy_bar_image_background**. `src/render.rs` leaves the unfilled bar tile transparent in that mode, so the shared preview/upload composition retains the theme artwork. Both saved colors are retained. Nonzero modes keep their solid track. The setting survives JSON and editable legacy snapshot round trips; older replacement JSON without it defaults to its prior solid track. Among the **35 installed themes**, **23** use mode0 and **12** use mode1; this is a file observation, not an execution claim.
+
+The regression reproduced the old error at **50% of a 150-pixel bar**: pixel75 was solid `[1,2,3,255]` instead of the artwork pixel `[95,36,80,255]`. It now verifies both modes, increasing/decreasing values, cached composition, saved colors, JSON/legacy persistence and older-JSON defaults. All **64 tests** pass.
+
+### Actual values and formulas retained in the build
+
+Addresses here are **RVAs**; preferred **VA = RVA + 0x400000**. The current audit contains their matching managed bodies and native inspection records.
+
+| Feature | Recovered rule and functions | Build wiring |
+|---|---|---|
+| Serial/screen | **115200**, **8/N/1**, DTR/RTS true, read timeout **1000 ms**: **0x2ebb0**. Landscape **480x320**, portrait **320x480**: **0x2f090**. | `original.rs`, `model.rs`, `runtime.rs` |
+| Packet packing | **0x2f8a4** takes low bytes of `x>>2`, `((x&3)<<6)+(y>>4)`, `((y&15)<<4)+(endX>>6)`, `((endX&63)<<2)+(endY>>8)`, `endY`, `opcode`. | `original::command_header` |
+| Display commands | Image **197**, inclusive `(x+width-1,y+height-1)`: **0x2fac0**. Mode **122** and orientation **121**, **16 bytes**, **10 ms** waits: **0x2f1f0/0x2f2c0**. Portrait0/landscape2, flip+1, bias100: **0x100e8/0x2f2c0**. Brightness **110**: **0x10384**. Image waits skip decoded descriptor **V2**. | `original.rs` packet builders, `runtime::upload_frame` |
+| Pixels | **0x51a0/0x2e07c**: `((r<<8)&63488) | ((g<<3)&2016) | (b>>3)`, **2 bytes/pixel**, little endian. | `original::rgb565_pixel`, `render::rgb565` |
+| Sensor percentages | **0x46968**: `truncate(used/total*100)` for video memory; **0x15b78** applies **99** ceilings to the previously documented fields. | `original.rs`, `runtime.rs`, `DataState::value` |
+| Bars/frequency | **0x12418**: `truncate(double(float32(value))*.01*length)`; CPU frequency bar `truncate(float32(MHz)/8000*length)`. Text: `q=truncate(Math.Round(double(float32(MHz))/10000,2)*100)`, ties-to-even; insert decimal after first of at least2 digits. **2900 MHz -> 2.8**. | `original::bar_pixels/cpu_frequency_text`, `render.rs` |
+| Network | **0x113dc**: byte rate `/1024/1024`; negative ->0, positive below**0.1 MiB/s** ->0.1. **0x12418** truncates tenths, supplies0.1 when tenths0 and input>0.01, and displays99.9 above99. | `original::network_mibps/network_tenths`, imported bindings |
+| Arc geometry | **0x4d350/0x4db44/0x4dfc8/0x4bb34**: diameter `archR`, centered `archWidth`, origin `pos+30-offset-stroke/2`; **100** segments, **float32(3.6)** degrees each, `(i+startPer)*3.6`; saved start already includes constructor-25; `useInternal` skips `i%4==0`. Bar height defaults to**13**: **0x5fa64**. | `legacy.rs`, `original::arc_gap`, `render.rs` |
+| Text | **0x4f80c/0x500ec/0x5190c**: fixed `FontConfig.interval` for every character. **0x527c** skips drawing placeholder`x`. Controller **0x12418** pads usages/disk temperature/volume to2 blank cells, CPU power3, memory/fans5, network4 including decimal; CPU/GPU temperatures use2 zero-padded digits; clock **HH:mm**. | `original::padded_sensor_text`, imported raster cells |
+| Names/messages | Decoder **0xcb28**: `k=303400377+argument`; decode each UTF-16 unit `((((c&255)^k)&255)<<8) | (((c>>8)^(k+1))&255)`; `k+=2`. Controller key4 identifies names including `GpuRamLoad` and misspelled `VulomeLoad`; transport key10 gives`V2`; serial key16 gives **创建设备失败,疑似占用** (device creation failed, likely in use). | `legacy::binding`; decoded strings stored in audit |
+| Files | **0xa894/0xa984**: BinaryFormatter/NRBF graph; deserialize input from offset0. | Inert `legacy.rs` reader; replacement snapshot export remains independently implemented |
+
+Physical hardware output, exact GDI+ pixels, and original-app export acceptance remain unverified. Brightness percentage direction follows the user's prior hardware observation. Grid, histories, refresh intervals and external integrations remain the explicitly identified replacement choices below.
+
+## Earlier inspection and fixed text columns (2026-11-05, Europe/Rome)
+
+Opened the original main program **C:\Program Files\35inchENG\UsbMonitor.exe** with `core_target_open` in **Deep mode**, SHA-256 **a980a69b634fe6cb3a20173293d23f5728855f41b62748cf6a4b5b9406f972ab**. Completed three fresh `native_strings_find` searches for names, settings and messages (**0 / 1 / 0** matches), followed the manifest hit **VA0x524c78** and controller/packet addresses with `native_xrefs_list`, and traced decoded names and messages through the CLR method/field tokens. The native searches do not expose the obfuscated managed names: the lone `V2` hit is the manifest's `asm.v2` namespace, not the display revision check.
+
+Completed **40 individual `native_function_pseudocode` requests**, awaiting and reading each result before the next request. [evidence/deep-columns-audit.json](evidence/deep-columns-audit.json) preserves all complete responses, **40 matching managed bodies**, decoded string offsets/keys, P/Invoke declarations and **1,245 incoming managed references**, plus each body's outgoing calls and field accesses. [evidence/inspect-columns.py](evidence/inspect-columns.py) reproducibly attaches the managed evidence to this audit. The inventory remains **107 types, 974 methods, 946 IL bodies, 9,045 call sites and 985 fields**.
+
+The native Deep engine interprets this obfuscated .NET assembly's IL as machine instructions and returns invalid pseudo-C, usually ending in `halt_baddata()`. Those requested results are inspection records; behavioral claims below come from the valid ECMA-335 bodies and resolved token references. A separate `managed_ilspy_decompile` request for `usb_hid.TItem` was refused with "MCP tool call requires approval, but approval policy is never"; the response is saved in `evidence/deep-columns-ilspy-attempt.json`. No successful native/C# decompilation or execution of the original is claimed.
+
+Fresh search evidence: names **ev_4bda1665c8d951115617b33e33012bb67ee6baa9f7c1e48d09f5474320a2de46**; settings **ev_e7a02cb601db4a0f0b9368eead1abd74c2545fa8cf7cd12e11b46f48748e6632**; messages **ev_899b59ec33aad9cdf0d145973aa38be3dac922cf7f722d6feb27bab4155179b9**. Valid managed body evidence: **ev_e367ac3c94a18d03619ef56ae892b942a255907ae9d7c39a85030939e771aa73**. Native-boundary metadata: **ev_4592c9207f73d8cfdc888ab59deedc4b39306bbfa69c8ea52d0ba3471f1b9501**.
+
+### Newly applied rule: preserve blank cells and the saved text origin
+
+The controller pads readings with the character **`x` (120)**. In the live glyph rasterizer **RVA0x527c / VA0x40527c**, token **0x06000043**, **IL_05f0..0621** compares the glyph against decoded `x`; the equal branch goes to **IL_0640** and skips the `DrawString` block **IL_04f0..0513**. It is a blank cell, not a visible letter. Live TItem **RVA0x500ec / VA0x4500ec**, token **0x060002f2**, calls this rasterizer at **IL_0611**, sends the glyph at its running x coordinate, then adds the saved interval at **IL_01ea..01f7**. Interval getter **RVA0x5190c** reads field **0x04000346**. Group update **RVA0x61490 IL_00ef** calls this TItem method. The audit contains all these reference edges.
+
+Minimum character columns recovered from controller **RVA0x12418 / VA0x412418**, token **0x060000d3**:
+
+| Fields | Columns and padding | Instructions |
+|---|---|---|
+| CpuLoad, GpuLoad, RamLoad, HDDLoad | **2**, blank | `PadLeft(2,'x')` at **IL_0c6c..0c6f, 0fd0..0fd3, 1607..160a, 177f..1782**, selected by the decoded field branches |
+| HDDTemp, Volume/VulomeLoad | **2**, blank | **IL_1466..1469, 1811..1814** |
+| CpuPower | **3**, blank | **IL_0f1d..0f20** |
+| GpuRam, CpuFan, GpuFan | **5**, blank | **IL_0f58..0f5b, 0f93..0f96, 18b8..18bb** |
+| InternetUp, InternetDown | **4 including the decimal point**, blank | First `PadLeft(2,'0')`, then `PadLeft(3,'x')` at **IL_0dd8..0de3 / 1171..117c**, followed by `Insert(2,".")` at **IL_0ce8..0d0a / 0d55..0d67**. E.g. 0 -> `x0.0`, 1.29 -> `x1.2`, 12.39 -> `12.3`. The previously documented sampler minimum/99.9 ceiling still applies. |
+| CpuTemp, GpuTemp | **2**, zero | **IL_14f1..14f4, 15cb..15ce**; retained existing `00` formatting |
+
+These are minimum lengths: longer readings are never shortened to fit. `src/original.rs::padded_sensor_text` maps the blank placeholder to spaces for the replacement raster. The renderer applies the widths to the corresponding imported default precision; explicit decimal overrides and unavailable readings retain their existing handling. RamValue's universal source units remain unverified and are not inferred from its text width.
+
+The replacement previously cropped away blank cells and glyph margins, then aligned the ink to the selection rectangle's right edge. `src/render.rs::text_line` now preserves the imported cell origin and extent, and imported live text draws from the saved layer origin. With saved interval **24**, the `8` in `  8 ` begins **48 pixels** later than in `8`; at double font size, the offset becomes **96**. A CPU-power reading of 8 occupies `xx8`, so enlarging its selection rectangle alone leaves the glyph at the same x coordinate. This rule survives saved JSON and is shared by preview and image upload. Ordinary editor fields retain their editable proportional/right alignment behavior. The original designer preview replaces `x` with `8` (**0x4f80c IL_0492..04a7, 058a..0598**); this app's preview deliberately shows the live reading instead.
+
+The focused regression failed before the correction (blank-column offset **0**, expected **48**) and passes afterward. It checks leading/trailing cells, two font sizes, resizing and saved JSON. Existing sensor/network raster fixtures now include the recovered literal padding widths. Build/check results are recorded in `VALIDATION.md`.
+
+### Rechecked values and formulas used by the build
+
+All addresses below are **RVAs**, with preferred **VA = RVA + 0x400000**. Full bodies and references are in the fresh audit. The more detailed table in the previous inspection below lists source wiring and remaining differences.
+
+| Mechanic | Original rule and function RVAs |
+|---|---|
+| Serial and screen | **115200 baud, 8/N/1**, DTR/RTS true, read timeout **1000 ms**: **0x2ebb0**. Landscape **480x320**, portrait **320x480**: **0x2f090**. |
+| Header | **0x2f8a4**: low bytes of `x>>2`, `((x&3)<<6)+(y>>4)`, `((y&15)<<4)+(endX>>6)`, `((endX&63)<<2)+(endY>>8)`, `endY`, `opcode`. |
+| Commands | Image **197**, inclusive end `(x+width-1,y+height-1)`: **0x2fac0**. Mode **122**, orientation **121**: **0x2f1f0/0x2f2c0**, **16-byte** packets, **10 ms** waits. Portrait orientation0, landscape2, flip adds1, wire bias100: **0x100e8/0x2f2c0**. Brightness **110**: **0x10384**. Image waits skip descriptors containing decoded **V2**, key10: **0x2fac0**. |
+| Pixels | **0x51a0/0x2e07c**: `((r<<8)&63488) | ((g<<3)&2016) | (b>>3)`, **2 bytes/pixel, little endian**. |
+| Sensor conversion | **0x46968/0x15b78**: GPU memory percentage `truncate(used/total*100)`, capped at **99**. Other previously documented sensor ceilings remain99. |
+| Network | **0x113dc**: byte-rate `/1024/1024`, negative ->0, positive below0.1 ->0.1 **MiB/s**. **0x12418**: truncate tenths; controller fallback0.1 above0.01; values above99 display99.9. |
+| CPU frequency/bars | **0x12418**: `q=truncate(Math.Round(double(float32(MHz))/10000,2)*100)`, ties-to-even; decimal inserted after the first of at least2 digits. **2900MHz ->2.8**. Frequency bar `truncate(float32(MHz)/8000*length)`; percent bar `truncate(double(float32(value))*.01*length)`. |
+| Arcs | **0x4d350/0x4db44/0x4dfc8/0x4dde4/0x4bb34**: diameter `archR`, centered stroke `archWidth`; **100** segments of **float32(3.6)** degrees; `start=(i+startPer)*3.6`; saved start already includes constructor **-25**; `useInternal` skips **i%4==0**; **360-degree** background. Bar height default **13**: **0x5fa64**. |
+| Text/date | **0x4f80c/0x500ec/0x5190c**: fixed saved interval for every character, including punctuation and blanks. **0x507d4/0x50ba8**: **yyyy/M/d**; controller **0x12418**: **HH:mm**. |
+| Files/hardware | **0xa894/0xa984**: BinaryFormatter/NRBF graph, input starts at offset0. **0x46498/0x44cac**: sensor init flags **64**; discovery **0x41b08**, sampling **0x46968**, cleanup **0x44f30**. P/Invoke metadata verifies the existing cdecl ordinals. |
+| Names/messages | **0xcb28**: `k=303400377+argument`; UTF-16 decode `((((c&255)^k)&255)<<8) | (((c>>8)^(k+1))&255)`, then `k+=2`. Controller key4 identifies the field names; serial key16 decodes **创建设备失败,疑似占用** (device creation failed, likely in use). |
+
+Physical display equivalence, exact GDI+ raster identity, successful native sensor acquisition and original-app acceptance of legacy exports remain unverified. Independent weather/stocks/Home Assistant/HTTP features, grid, histories and refresh policies remain explicitly identified as replacement choices in the historical detail below.
+
+## Previous verified inspection (2026-11-05, Europe/Rome)
+
+Opened **C:\Program Files\35inchENG\UsbMonitor.exe** with `core_target_open` in **Deep mode**. SHA-256: **a980a69b634fe6cb3a20173293d23f5728855f41b62748cf6a4b5b9406f972ab**. Ran `native_strings_find` for names, settings and messages; the searches returned **0 / 1 / 0** matches. The settings hit at **0x524c78** is the manifest's XML `asm.v2` namespace. `native_xrefs_list` at that hit, controller **0x412418**, and packet builder **0x42f8a4** returned no native references.
+
+Completed **39 individual `native_function_pseudocode` requests sequentially**, waiting for and reading each result before requesting the next. The original is an obfuscated CLR assembly. Ghidra interprets its IL as machine code and produces invalid pseudo-C (usually `halt_baddata()`). Behavioral conclusions therefore use the matching ECMA-335 method bodies and resolved managed references. The original executable was not run.
+
+[evidence/deep-current-audit.json](evidence/deep-current-audit.json) is the self-contained inspection record: all **39 complete native results**, **39 matching managed bodies**, decoded literals with their offsets/keys, **1,239 incoming managed call references**, and the P/Invoke metadata. Each body also contains its outgoing calls and field accesses. Full assembly inventory: **107 types, 974 methods, 946 IL bodies, 9,045 call sites, 985 fields**, with no reader decode issues. Evidence IDs:
+
+- Names: `ev_d677769e1684751849e6f5cc9989587463de440005abe4d274d7a66b1120731b`.
+- Settings: `ev_fae7ae03c2688e3fe09541d8708d0d7dc14ff7267be2547e974f901c388f1f56`.
+- Messages: `ev_1843db93193589e2510667b8d8f0398a1f51a80c27f69c9fc7bfada90841c142`.
+- Managed bodies: `ev_e367ac3c94a18d03619ef56ae892b942a255907ae9d7c39a85030939e771aa73`.
+- Native boundaries: `ev_4592c9207f73d8cfdc888ab59deedc4b39306bbfa69c8ea52d0ba3471f1b9501`.
+
+### Correction applied: punctuation uses the saved glyph interval
+
+The replacement used proportional advances and kerning for punctuation and letters in imported fields. The original advances **every character**, including `.` and `:`, by the saved `FontConfig.interval`. `src/render.rs::text_line` now follows that rule whenever imported font metrics are present, including imports saved as JSON. The shared raster serves both preview and display upload. Size and letter-spacing edits remain available through `step = interval * (size / savedSize) + extraSpacing`.
+
+Verified reference chain:
+
+1. Group preview **RVA 0x61614 / VA 0x461614**, token **0x0600039b**, calls TItem preview **0x4f80c / 0x44f80c**, token **0x060002f1**, at **IL_00f1**. Preview **IL_0737..073e** draws the current glyph at the running x coordinate, then **IL_0744..0751** adds the interval to x.
+2. Group update **0x61490 / 0x461490**, token **0x0600039a**, calls TItem update **0x500ec / 0x4500ec**, token **0x060002f2**, at **IL_00ef**. Update reads one character at **IL_0245..025c**, sends its glyph at the running x coordinate at **IL_0650..0675**, and advances x at **IL_01ea..01f7**.
+3. Both call interval getter **0x5190c / 0x45190c**, token **0x06000301**. Its **IL_009c..00a2** reads the signed integer backing field **0x04000346** and returns it directly. There is no character-width calculation or kerning in either advance path.
+
+At interval **34**, the third glyph in `8.8`, `8:8`, `8/8`, `8 8`, `8A8`, and `8V8` starts **68 pixels** after the first. A raster regression reproduced the previous defect: `8.8` at half-size occupied **35 pixels** instead of the expected **45**. It now passes at three sizes, with explicit extra spacing, saved JSON metrics, and exact first/last glyph comparisons. Existing ordinary-text proportional spacing is also checked. Exact GDI+ glyph pixels and negative/zero-interval imports remain unverified; the importer retains its positive-interval validation.
+
+### Verified mechanics wired into the current build
+
+Addresses in this table are **RVAs**; preferred **VA = RVA + 0x400000**. Full instructions and references are in the current audit above. These describe original-compatible imported behavior; independent editor features keep their own editable rules.
+
+| Mechanic | Function RVA(s), recovered rule, and implementation |
+|---|---|
+| Screen and orientation | **0x2f090, 0x100e8**: landscape **480x320**, portrait **320x480**; portrait orientation **0**, landscape **2**, flip adds **1**. `original.rs`, `model.rs`, `runtime.rs`. |
+| Serial | **0x2ebb0 IL_01d2..0211**: **115200 baud, 8/N/1**, DTR/RTS true, read timeout **1000 ms**. Rust applies its timeout to both reads and writes. Faster selectable speeds remain firmware-dependent extensions. |
+| Packed command | **0x2f8a4 IL_0127..0170**: six bytes `low8(x>>2)`, `low8(((x&3)<<6)+(y>>4))`, `low8(((y&15)<<4)+(endX>>6))`, `low8(((endX&63)<<2)+(endY>>8))`, `low8(endY)`, `opcode`. `original::command_header`. |
+| Mode/orientation | **0x2f1f0, 0x2f2c0**: zero-filled **16-byte** packets; mode opcode **122**, byte6=mode; orientation opcode **121**, byte6=**100+orientation**, bytes7..8=width, 9..10=height, big endian; each command waits **10 ms**. Shared packet builders in `original.rs`. |
+| Brightness | **0x10384 IL_00ab..00b3**: opcode **110**, raw brightness in first packed coordinate. The existing inverse percentage-to-raw UI mapping is independently chosen and previously user-confirmed. |
+| Image transfer | **0x2fac0 IL_005a..0092**: opcode **197**, inclusive `endX=x+width-1`, `endY=y+height-1`; descriptor containing decoded **V2** skips the image waits. `runtime.rs` uses `original::image_header`; dirty rectangles/chunk size are replacement optimizations. |
+| Pixels | **0x51a0 IL_00b4..00ca**, bitmap path **0x2e07c**: `((r<<8)&63488) | ((g<<3)&2016) | (b>>3)`, **2 little-endian bytes/pixel**. `original::rgb565_pixel`, called by `render::rgb565`. |
+| Network | **0x113dc**: `deltaBytes / elapsedSeconds / 1024 / 1024`; negative resets to **0**, strictly positive below **0.1 MiB/s** becomes **0.1**. **0x12418**: text truncates tenths; zero tenths becomes **1** above **0.01**; input above **99** displays **99.9**. `original::network_mibps/network_tenths`, `model.rs`, `render.rs`. Shared decimal MB/s readings are converted for imports. |
+| CPU frequency | Getter/setter **0xdc54/0xdd04**, controller **0x12418 IL_1632..167b**: `q=truncate(Math.Round(double(float32(MHz))/10000,2)*100)` with midpoint-to-even; `q.ToString().PadLeft(2,'0').Insert(1,".")`. Operation order gives **2900 MHz -> 2.8**. Frequency bar: `truncate(float32(MHz)/8000*length)`. `original.rs`, `render.rs`; bar clipping is replacement validation. |
+| Percentages and GPU memory | Controller **0x12418**: percent bar `truncate(double(float32(value))*0.01*length)`. Postprocessor **0x15b78** caps CPU/GPU load/temperature, GPU memory percentage, RAM load and volume at **99**. Sensor **0x46968 IL_1437..14d6**, getter/setter **0xe49c/0xe54c**: GPU memory percentage `truncate(used/total*100)`, then ceiling99. `original.rs`, `model.rs`, `runtime.rs`, `render.rs`. |
+| Arcs and bars | **0x4d350, 0x4db44, 0x4dde4, 0x4dfc8, 0x4bb34**: **100** segments, **float32(3.6)** degrees each, `start=(i+startPer)*3.6`; `useInternal` omits `i%4==0`; full **360-degree** background; `archR` is diameter, `archWidth` centered stroke. Saved start already incorporates constructor offset **-25**. Bar initialization **0x5fa64 IL_00ed..00f0** uses height **13**. `legacy.rs`, `original.rs`, `render.rs`. |
+| Glyphs and date/time | **0x4f80c, 0x500ec, 0x5190c**: fixed interval for every character, as above. **0x507d4/0x50ba8** decode date **yyyy/M/d**; **0x12418** decodes time **HH:mm**. `legacy.rs`, `render.rs`. |
+| Themes | **0xa894 IL_0004..001a**, **0xa984 IL_00be..00df**: BinaryFormatter/NRBF graph. Replacement `legacy.rs` reads inert records, preserves bitmaps/live widgets, and exports a bitmap snapshot with appended editable JSON. Original acceptance of that export remains untested. |
+| Hardware API | Initialization wrapper **0x44cac**, discovery **0x41b08**, configuration **0x46498**, sampling **0x46968**, HDD helper **0x41960**, cleanup **0x44f30**. Configuration **IL_00a9..00ab** stores initialization flags **64**, consumed by **0x44cac IL_00ad..00b2**. P/Invoke declarations verify cdecl ordinals init **684**, cleanup **458**, device count **515**, update **216**, name **531**, temperature **566**, integer fan **663**, power **579**. Existing `hwinfo.rs` uses these declarations. No physical acquisition equivalence is claimed. |
+| Names and messages | Decoder **0xcb28**: `k=303400377+argument`; decode each UTF-16 unit as `((((c&255)^k)&255)<<8) | (((c>>8)^(k+1))&255)`; increment k by **2**. Controller key **4** resolves field names including **GpuRamLoad**, **CpuFreq**, **InternetDown**, and **VulomeLoad**; serial key **16** resolves **创建设备失败,疑似占用** (device creation failed, likely occupied); image key **10** resolves **V2**. These identify the relevant managed call chains; live replacement errors remain actionable English messages. |
+
+The current audit preserves the native engine's limitations alongside the valid managed evidence. Physical display equivalence, successful original sensor acquisition, exact GDI+ raster identity, full live-widget legacy export and universal RamValue source units remain open. Grid, weather/stocks/Home Assistant/JSON integrations, refresh/history policies and the editor's general chart ranges remain independent features. Current build/check results are recorded in `VALIDATION.md`.
+
 ## Current inspection: recovered arc setting and verified original rules (2026-11-04)
 
 Opened the original main program **C:\Program Files\35inchENG\UsbMonitor.exe** with `core_target_open` in **Deep mode**, SHA-256 **a980a69b634fe6cb3a20173293d23f5728855f41b62748cf6a4b5b9406f972ab**. Completed three fresh `native_strings_find` searches for **names, settings and messages**, returning **0 / 1 / 3** matches. Followed every hit at **0x524c78, 0x524a92, 0x524be2, 0x524c0e**, plus controller **0x412418** and command builder **0x42f8a4**, with `native_xrefs_list`. Native references were empty: the hits are manifest/version resources, including the unrelated XML `asm.v2` namespace.

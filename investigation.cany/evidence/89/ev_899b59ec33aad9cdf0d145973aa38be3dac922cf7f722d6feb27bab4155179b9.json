@@ -1,0 +1,42 @@
+{
+  "id": "ev_899b59ec33aad9cdf0d145973aa38be3dac922cf7f722d6feb27bab4155179b9",
+  "subject": {
+    "kind": "managed",
+    "sha256": "a980a69b634fe6cb3a20173293d23f5728855f41b62748cf6a4b5b9406f972ab",
+    "name": "UsbMonitor.exe"
+  },
+  "operation": "native_strings_find",
+  "params": {
+    "case_sensitive": false,
+    "limit": 200,
+    "mode": "regex",
+    "offset": 0,
+    "pattern": "failed|error|占用|失败|创建|设备|Exception|UsbMonitor"
+  },
+  "result": {
+    "matches": [],
+    "total": 0
+  },
+  "summary": "0 strings match \"failed|error|占用|失败|创建|设备|Exception|UsbMonitor\".",
+  "confidence": "observed",
+  "authority": "original-files",
+  "environment": {
+    "clean_room": false,
+    "engine": "builtin",
+    "engine_version": "0.3.0",
+    "host": "windows-x86_64"
+  },
+  "limitations": [
+    {
+      "code": "data_sections_only",
+      "message": "only strings stored in the file are searched (absence is not proof)"
+    }
+  ],
+  "coverage": {
+    "status": "complete",
+    "examined": 0,
+    "total": 0
+  },
+  "locations": [],
+  "links": []
+}

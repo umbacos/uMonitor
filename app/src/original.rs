@@ -1,6 +1,7 @@
 //! Rules recovered from UsbMonitor.exe (preferred image base 0x400000).
-//! Addresses below are method RVAs. Full CLR bodies, references and the 48
-//! awaited native responses are in evidence/deep-arc-audit.json.
+//! Addresses below are method RVAs. Full CLR bodies, references and the 40
+//! awaited native responses are in evidence/deep-columns-audit.json.
+//! Fresh inspection: evidence/deep-build-audit.json (31 awaited responses).
 //! Ghidra native output is invalid for this CLR assembly; use the managed IL.
 
 // Dimensions: 0x2f090; command values: 0x2fac0/0x2f2c0/0x10384/0x2f1f0.
@@ -129,6 +130,27 @@ pub fn cpu_frequency_text(ghz: f64) -> String {
     let mut text = format!("{:02}", (rounded * 100.) as i32);
     text.insert(1, '.');
     text
+}
+
+// Controller 0x12418: PadLeft uses 'x' (120), a blank glyph in rasterizer
+// 0x527c IL_05f0..0640. Spaces retain those cells in the replacement raster.
+// These are minimum widths, never a request to truncate longer readings.
+pub fn padded_sensor_text(binding: &str, decimals: Option<u8>, text: String) -> String {
+    let columns = match (binding, decimals) {
+        // IL_0c6c,0fd0,1466,1607,177f,1811.
+        (
+            "cpu.usage" | "gpu.usage" | "memory.usage" | "disk.usage" | "disk.temperature"
+            | "volume.level",
+            Some(0),
+        ) => 2,
+        // IL_0f1d; IL_0f58,0f93,18b8.
+        ("cpu.power", Some(0)) => 3,
+        ("gpu.memory" | "cpu.fan" | "gpu.fan", Some(0)) => 5,
+        // IL_0dd8..0de3 / IL_1171..117c, then Insert(2,".").
+        ("network.upload" | "network.download", Some(1)) => 4,
+        _ => 0,
+    };
+    format!("{:>width$}", text, width = columns)
 }
 
 // Controller0x12418: frequency IL_0809..0822, percent e.g.IL_0349..0366.

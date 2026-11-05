@@ -2,6 +2,8 @@
 #![cfg_attr(windows, windows_subsystem = "windows")]
 mod canvas;
 mod credentials;
+#[cfg(windows)]
+mod elevation;
 mod fonts;
 #[cfg(windows)]
 mod hwinfo;
@@ -13,6 +15,8 @@ mod platform;
 mod render;
 mod runtime;
 mod sensors;
+#[cfg(windows)]
+mod single_instance;
 mod stocks;
 use base64::{engine::general_purpose::STANDARD, Engine};
 use eframe::egui::{self, Align2, Color32, FontId, Pos2, Rect, RichText, Sense, Stroke, Vec2};
@@ -2176,6 +2180,26 @@ fn main() -> eframe::Result<()> {
         .position(|a| a == "--screenshot")
         .and_then(|i| args.get(i + 1))
         .map(PathBuf::from);
+    // Interactive launches (including --tray) must acquire the instance guard
+    // before opening the session or starting workers. Keep it alive through exit.
+    // Isolated screenshots and sensor helpers retain their diagnostic behavior.
+    #[cfg(windows)]
+    let _instance = if screenshot.is_none() {
+        match single_instance::start() {
+            Ok(Some(instance)) => Some(instance),
+            Ok(None) => return Ok(()),
+            Err(error) => {
+                rfd::MessageDialog::new()
+                    .set_title("uMonitor")
+                    .set_description(format!("uMonitor could not start: {error}"))
+                    .set_level(rfd::MessageLevel::Error)
+                    .show();
+                return Err(eframe::Error::AppCreation(Box::new(error)));
+            }
+        }
+    } else {
+        None
+    };
     let options = eframe::NativeOptions {
         viewport: egui::ViewportBuilder::default()
             .with_title("uMonitor")

@@ -1,0 +1,49 @@
+{
+  "id": "ev_16408c430fed6b1f63734b44688317e3c96025839b09c2ce5d287c24dc4fd287",
+  "subject": {
+    "kind": "managed",
+    "sha256": "a980a69b634fe6cb3a20173293d23f5728855f41b62748cf6a4b5b9406f972ab",
+    "name": "UsbMonitor.exe"
+  },
+  "operation": "native_function_pseudocode",
+  "params": {
+    "function": "0x40a894"
+  },
+  "result": {
+    "engine": "ghidra",
+    "entry": "0x40a894",
+    "function": "FUN_0040a894",
+    "pseudo_code": "\r\n/* WARNING: Control flow encountered bad instruction data */\r\n/* WARNING: Removing unreachable block (ram,0x0040a8ac) */\r\n\r\nvoid FUN_0040a894(char *param_1,char param_2)\r\n\r\n{\r\n  uint uVar1;\r\n  byte bVar2;\r\n  uint uVar3;\r\n  int *in_RAX;\r\n  undefined1 unaff_BL;\r\n  undefined1 unaff_BH;\r\n  undefined6 unaff_0000001a;\r\n  uint *puVar4;\r\n  \r\n  uVar3 = (int)in_RAX + *in_RAX;\r\n  puVar4 = (uint *)(ulonglong)uVar3;\r\n  *puVar4 = *puVar4 << 1 | (uint)((int)*puVar4 < 0);\r\n  bVar2 = (byte)uVar3;\r\n  *(byte *)puVar4 = (byte)*puVar4 + bVar2;\r\n  *puVar4 = *puVar4 & uVar3;\r\n  *param_1 = *param_1 + param_2;\r\n  *(char *)CONCAT62(unaff_0000001a,CONCAT11(unaff_BH,unaff_BL)) =\r\n       *(char *)CONCAT62(unaff_0000001a,CONCAT11(unaff_BH,unaff_BL)) +\r\n       (char)((ulonglong)param_1 >> 8);\r\n  uVar1 = *puVar4;\r\n  *(byte *)puVar4 = (byte)*puVar4 + bVar2;\r\n  if (CARRY1((byte)uVar1,bVar2)) {\r\n    *(byte *)puVar4 = (byte)*puVar4 + bVar2;\r\n    *(byte *)puVar4 = (byte)*puVar4 + (char)(uVar3 >> 8);\r\n                    /* WARNING: Bad instruction - Truncating control flow here */\r\n    halt_baddata();\r\n  }\r\n                    /* WARNING: Bad instruction - Truncating control flow here */\r\n  halt_baddata();\r\n}\r\n\r\n",
+    "signature": "void FUN_0040a894(char *param_1,char param_2);"
+  },
+  "summary": "Pseudo-C for FUN_0040a894 from the Deep engine (38 lines).",
+  "confidence": "derived",
+  "authority": "original-files",
+  "environment": {
+    "clean_room": false,
+    "engine": "ghidra",
+    "engine_version": "12.1.4",
+    "host": "windows-x86_64"
+  },
+  "limitations": [
+    {
+      "code": "deep_engine",
+      "message": "the pseudo-C comes from the external Deep engine (Ghidra), not the original source"
+    },
+    {
+      "code": "made_on_demand",
+      "message": "Ghidra's analysis had no function here, so it made one starting at this address (for this session, never saved); its bounds come from following the code from there"
+    }
+  ],
+  "coverage": {
+    "status": "unknown"
+  },
+  "locations": [
+    {
+      "kind": "address",
+      "value": "0x40a894"
+    }
+  ],
+  "links": [],
+  "carries_target_content": true
+}

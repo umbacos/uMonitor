@@ -46,7 +46,7 @@ def pe_info(data):
     return dict(machine=u16(pe + 4), subsystem=u16(header + 68), imports=sorted(set(imports)))
 
 
-def verify(path):
+def verify(path, config_dir=None):
     with zipfile.ZipFile(path) as archive:
         assert archive.testzip() is None, "ZIP CRC failure"
         names = archive.namelist()
@@ -60,6 +60,19 @@ def verify(path):
     required |= {"config/" + n + ".json" for n in ["landscape", "portrait", "ticker", "connected-sources"]}
     required |= {"docs/screenshots/" + n + ".png" for n in ["editor", "ticker", "sources", "display-settings"]}
     assert required <= files.keys(), f"Missing files: {required - files.keys()}"
+    if config_dir is not None:
+        config_dir = Path(config_dir)
+        assert config_dir.is_dir(), f"Missing source config directory: {config_dir}"
+        source_configs = {"config/" + p.relative_to(config_dir).as_posix(): p.read_bytes()
+                          for p in config_dir.rglob("*") if p.is_file()}
+        bundled_configs = {n: data for n, data in files.items() if n.startswith("config/")}
+        assert source_configs.keys() == bundled_configs.keys(), "ZIP config files differ from the complete source config directory"
+        for name, data in source_configs.items():
+            assert bundled_configs[name] == data, f"Outdated config file: {name}"
+        source_dirs = {prefix + "config/" + p.relative_to(config_dir).as_posix() + "/"
+                       for p in config_dir.rglob("*") if p.is_dir()}
+        missing_dirs = {directory for directory in source_dirs if not any(n.startswith(directory) for n in names)}
+        assert not missing_dirs, f"Missing config directories: {missing_dirs}"
     assert not any("cockpit-session" in n or n.endswith((".pdb", ".rs")) for n in files), "Development/personal file included"
     manifest = json.loads(files["manifest.json"])
     assert {e["path"] for e in manifest["files"]} == files.keys() - {"manifest.json"}
@@ -68,7 +81,7 @@ def verify(path):
         assert len(data) == entry["bytes"], entry["path"]
         assert hashlib.sha256(data).hexdigest() == entry["sha256"], entry["path"]
     for name, data in files.items():
-        if name.startswith("config/") and name.endswith(".json"):
+        if name in {"config/" + n + ".json" for n in ["landscape", "portrait", "ticker", "connected-sources"]}:
             project = json.loads(data)
             assert project["version"] == 2 and project["widgets"], name
             for source in project["sources"]:
@@ -88,11 +101,12 @@ def verify(path):
     checksum = hashlib.sha256(path.read_bytes()).hexdigest()
     checksum_file = path.with_name(path.name + ".sha256")
     assert checksum_file.read_text(encoding="utf-8").split()[0] == checksum, "ZIP checksum mismatch"
-    return dict(passed=True, archive=path.name, bytes=path.stat().st_size, file_count=len(files), sha256=checksum, binaries=binaries)
+    return dict(passed=True, archive=path.name, bytes=path.stat().st_size, file_count=len(files),
+                config_file_count=sum(n.startswith("config/") for n in files), sha256=checksum, binaries=binaries)
 
 
 if __name__ == "__main__":
-    report = verify(Path(sys.argv[1]).resolve())
+    report = verify(Path(sys.argv[1]).resolve(), Path(__file__).resolve().parents[1] / "config")
     if len(sys.argv) > 2:
         Path(sys.argv[2]).write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(report, indent=2))

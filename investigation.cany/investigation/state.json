@@ -1,0 +1,66 @@
+{
+  "revision": 22,
+  "brief": {
+    "question": "Verify the original UsbMonitor main executable in Deep mode: search names, settings and messages, follow references, await relevant pseudocode, recover actual formulas and rules and reconcile the build.",
+    "purpose": "Replace assumptions with traceable original-program evidence and produce a verified current portable build.",
+    "targets": [
+      "C:\\Program Files\\35inchENG\\UsbMonitor.exe",
+      "C:\\Users\\umbac\\Documents\\GitHub\\uMonitor\\app"
+    ],
+    "constraints": [
+      "Preserve existing workspace changes and personal sessions.",
+      "Do not use native pseudo-C over CLR IL as behavioral proof; follow managed metadata/IL when needed.",
+      "Wait for every pseudocode result."
+    ],
+    "done_when": "app/MECHANICS.md records actual values/formulas/rules with function addresses; build uses recovered behavior; portable ZIP verified and Craft rebuild_check passes."
+  },
+  "plan": [
+    {
+      "title": "Open original, search names/settings/messages and follow references",
+      "status": "done",
+      "why": "Deep mode confirmed; original opened; three string searches and native xrefs completed; decoded managed names/settings/messages followed by tokens."
+    },
+    {
+      "title": "Read relevant pseudocode and managed IL, reconcile mechanics and implementation",
+      "status": "doing",
+      "why": "All31 native responses awaited/read, with31 matching managed bodies and1238 incoming references saved. Corrected barType0 background restoration;64 tests pass; documenting recovered values."
+    },
+    {
+      "title": "Rebuild portable package, verify and run Craft checks",
+      "status": "todo"
+    }
+  ],
+  "hypotheses": [],
+  "findings": [
+    {
+      "id": "fnd_1",
+      "statement": "Original TItem preview RVA0x4f80c IL0737..0751 and update RVA0x500ec IL01ea..01f7 advance every character by FontConfig.interval (getter RVA0x5190c, field04000346), with no proportional punctuation advance or kerning. Native Ghidra output is invalid for CLR; the behavior is read from valid managed IL.",
+      "evidence_ids": [
+        "ev_e367ac3c94a18d03619ef56ae892b942a255907ae9d7c39a85030939e771aa73",
+        "ev_907ea70a4f503bbe4f3a8dd1f70bfc39d1a86abe769091e564f725e1a70ed4ac",
+        "ev_70d3f22f1628f09b25b50842f9bc57243cbf278df74d52f3251b3241b19e4965"
+      ],
+      "confidence": "observed"
+    },
+    {
+      "id": "fnd_2",
+      "statement": "Controller RVA0x12418 pads sensor text with the x placeholder: widths2 for usage/disk temperature/volume, 3 for CPU power, 5 for GPU memory/fans, and 4 including the inserted network decimal. Glyph rasterizer RVA0x527c IL05f0..0640 skips drawing x, while live TItem RVA0x500ec advances every cell from saved posX; native Ghidra output is invalid for CLR, so the rule is established by managed IL.",
+      "evidence_ids": [
+        "ev_e367ac3c94a18d03619ef56ae892b942a255907ae9d7c39a85030939e771aa73",
+        "ev_ebb06110db7e4cbd7576f9398c7e87aeb468b87ad5db1193372f0062f394f07c"
+      ],
+      "confidence": "observed"
+    },
+    {
+      "id": "fnd_3",
+      "statement": "StatuBar update RVA0x60590 tests ThemeConfig.barType through getter0x62ba0 (field040003cf): barType0 restores the unfilled rectangle from the composed screen image (IL0247..02c7), while nonzero modes send backColor data (IL01a9..01ef). Frame construction0x10a38 converts the composed bitmap to RGB565 and stores it through0x2e754, read by0x2e808.",
+      "evidence_ids": [
+        "ev_6182981093b885fe9e33e020a9362aaf9d1f9410f97540c758d52f7163fca80f",
+        "ev_947322eacbc638a52bea87faed1fb738367b6b7b26c52deaad7daa60d199a9c6"
+      ],
+      "confidence": "observed"
+    }
+  ],
+  "handoff": "Completed portable-always-build request (2026-11-05). User explicitly requires a fresh portable ZIP with the entire config directory and all examples on every completed build. New app/build.ps1 is standard build entrypoint and invokes scripts/package-portable.ps1, building release and writing app/uMonitor-<version>-windows-x64-portable.zip plus .sha256 by default. app/AGENTS.md preserves this requirement for future work, including after Craft checks. Packaging copies config recursively with -Force and uses .NET ZipFile to retain hidden files and empty directories, stages the new ZIP before replacing the old one, and manifests all files. Added app/config/README.md; updated app README/PORTABLE. verify-portable.py compares every source config byte and directory in addition to existing integrity/import/example checks. Standard powershell -NoProfile -File app/build.ps1 -Offline passed; final app/uMonitor-0.1.0-windows-x64-portable.zip is 12,799,301 bytes, 545 files, including all 4 config examples plus config README; SHA256 0faa9ff59f1087c58130c3cd4c5b6e2c04ffb53c27a47f12ef88d469f591833d. Binary content matches current release exactly (exe SHA256 ab2c7133f99dd41b2f7cd6f517692b44e3c9e0d7d87acc726c6f458a403095c3). Full archive CRC/manifest/SHA/import/config checks pass (app/evidence/portable-build-verification.json). Extracted package in folder with spaces launches landscape/portrait/ticker screenshots and hardware helper successfully (portable-smoke.json). Optional hidden-fixture/recursive cleanup command was blocked by policy without running; instead safe target/ scratch config copy verified acceptance of exact config and rejection of stale files, missing nested files and missing empty directories (portable-config-regression.json). No config fixtures left in source. Craft rebuild_check passed build, startup screenshot3450x2125 and75 mechanics63 sourced12estimated; portable-build-craft-check.json saved. Formatting and diff checks pass. Unrelated existing source/session changes preserved. No task work remains; keep building the portable ZIP on future completed builds.",
+  "updated": "2026-11-05T07:37:49Z"
+}

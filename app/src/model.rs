@@ -158,6 +158,9 @@ pub struct Widget {
     // ArchBar.useInternal: leave segments 0, 4, ..., 96 in the track color.
     #[serde(default)]
     pub legacy_arc_gaps: bool,
+    // ThemeConfig.barType==0: StatuBar restores the screen artwork behind it.
+    #[serde(default)]
+    pub legacy_bar_image_background: bool,
     #[serde(default)]
     pub clock_format: String,
     #[serde(default = "default_true")]
@@ -319,6 +322,7 @@ impl Widget {
             ring_label_inside: false,
             legacy_arc: false,
             legacy_arc_gaps: false,
+            legacy_bar_image_background: false,
             clock_format: String::new(),
             fill_enabled: true,
             outline_enabled: false,

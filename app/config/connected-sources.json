@@ -1,0 +1,236 @@
+{
+  "version": 2,
+  "name": "Connected sources - configure before use",
+  "portrait": false,
+  "widgets": [
+    {
+      "id": 1,
+      "name": "Text",
+      "kind": "Text",
+      "x": 24,
+      "y": 26,
+      "w": 432,
+      "h": 36,
+      "label": "",
+      "text": "Connected dashboard",
+      "binding": "",
+      "unit": "",
+      "color": [
+        98,
+        225,
+        187,
+        255
+      ],
+      "background": [
+        20,
+        42,
+        48,
+        255
+      ],
+      "size": 27,
+      "min": 0,
+      "max": 100,
+      "visible": true,
+      "locked": false,
+      "show_label": false,
+      "image": null,
+      "font": "Segoe UI"
+    },
+    {
+      "id": 2,
+      "name": "Clock",
+      "kind": "Clock",
+      "x": 24,
+      "y": 78,
+      "w": 432,
+      "h": 40,
+      "label": "",
+      "text": "",
+      "binding": "",
+      "unit": "",
+      "color": [
+        98,
+        225,
+        187,
+        255
+      ],
+      "background": [
+        20,
+        42,
+        48,
+        255
+      ],
+      "size": 30,
+      "min": 0,
+      "max": 100,
+      "visible": true,
+      "locked": false,
+      "show_label": false,
+      "image": null,
+      "font": "Segoe UI",
+      "clock_format": "%H:%M:%S"
+    },
+    {
+      "id": 3,
+      "name": "Ticker",
+      "kind": "Ticker",
+      "x": 24,
+      "y": 150,
+      "w": 432,
+      "h": 42,
+      "label": "",
+      "text": "",
+      "binding": "",
+      "unit": "",
+      "color": [
+        98,
+        225,
+        187,
+        255
+      ],
+      "background": [
+        20,
+        42,
+        48,
+        255
+      ],
+      "size": 25,
+      "min": 0,
+      "max": 100,
+      "visible": true,
+      "locked": false,
+      "show_label": false,
+      "image": null,
+      "font": "Segoe UI",
+      "ticker_bound": true,
+      "ticker_circular": true,
+      "scroll_speed": 5,
+      "scroll_direction": "RightToLeft",
+      "ticker_sources": [
+        {
+          "binding": "cpu.usage",
+          "unit_prefix": "CPU ",
+          "unit_suffix": "%",
+          "decimals": 0
+        },
+        {
+          "binding": "memory.usage",
+          "unit_prefix": "RAM ",
+          "unit_suffix": "%",
+          "decimals": 1
+        },
+        {
+          "binding": "network.download",
+          "unit_prefix": "Down ",
+          "unit_suffix": " MB/s",
+          "decimals": 2
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Text",
+      "kind": "Text",
+      "x": 24,
+      "y": 238,
+      "w": 432,
+      "h": 46,
+      "label": "",
+      "text": "Select the ticker to edit its fields",
+      "binding": "",
+      "unit": "",
+      "color": [
+        130,
+        161,
+        168,
+        255
+      ],
+      "background": [
+        20,
+        42,
+        48,
+        255
+      ],
+      "size": 18,
+      "min": 0,
+      "max": 100,
+      "visible": true,
+      "locked": false,
+      "show_label": false,
+      "image": null,
+      "font": "Segoe UI"
+    }
+  ],
+  "wallpaper": null,
+  "background": [
+    10,
+    25,
+    31,
+    255
+  ],
+  "sources": [
+    {
+      "id": 1,
+      "name": "Local JSON example",
+      "kind": "Json",
+      "url": "http://127.0.0.1:8080/metrics",
+      "auth": "None",
+      "credential_id": "",
+      "interval": 60,
+      "latitude": "",
+      "longitude": "",
+      "symbol": "",
+      "stocks": []
+    },
+    {
+      "id": 2,
+      "name": "Home Assistant example",
+      "kind": "HomeAssistant",
+      "url": "http://homeassistant.local:8123",
+      "auth": "Bearer",
+      "credential_id": "",
+      "interval": 60,
+      "latitude": "",
+      "longitude": "",
+      "symbol": "",
+      "stocks": []
+    },
+    {
+      "id": 3,
+      "name": "Rome weather example",
+      "kind": "Weather",
+      "url": "",
+      "auth": "None",
+      "credential_id": "",
+      "interval": 900,
+      "latitude": "41.9028",
+      "longitude": "12.4964",
+      "symbol": "",
+      "stocks": []
+    },
+    {
+      "id": 4,
+      "name": "Stock example - enter your API key",
+      "kind": "Stock",
+      "url": "",
+      "auth": "None",
+      "credential_id": "",
+      "interval": 86400,
+      "latitude": "",
+      "longitude": "",
+      "symbol": "MSFT",
+      "stocks": [
+        "MSFT"
+      ]
+    }
+  ],
+  "grid": true,
+  "grid_size": 8,
+  "rotation": false,
+  "brightness": 65,
+  "serial_baud": 115200,
+  "mirror_mode": false,
+  "display_v2": false,
+  "wallpaper_rotation": 0,
+  "wallpaper_mirror": false
+}

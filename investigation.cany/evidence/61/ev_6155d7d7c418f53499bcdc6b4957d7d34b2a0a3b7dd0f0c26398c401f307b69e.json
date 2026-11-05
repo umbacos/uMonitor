@@ -1,0 +1,49 @@
+{
+  "id": "ev_6155d7d7c418f53499bcdc6b4957d7d34b2a0a3b7dd0f0c26398c401f307b69e",
+  "subject": {
+    "kind": "managed",
+    "sha256": "a980a69b634fe6cb3a20173293d23f5728855f41b62748cf6a4b5b9406f972ab",
+    "name": "UsbMonitor.exe"
+  },
+  "operation": "native_function_pseudocode",
+  "params": {
+    "function": "0x444f30"
+  },
+  "result": {
+    "engine": "ghidra",
+    "entry": "0x444f30",
+    "function": "FUN_00444f30",
+    "pseudo_code": "\r\n/* WARNING: Control flow encountered bad instruction data */\r\n\r\nvoid FUN_00444f30(char *param_1)\r\n\r\n{\r\n  byte bVar1;\r\n  uint uVar2;\r\n  uint uVar4;\r\n  byte bVar5;\r\n  char cVar6;\r\n  undefined4 in_EAX;\r\n  undefined3 uVar8;\r\n  undefined4 in_register_00000004;\r\n  uint *unaff_RBX;\r\n  uint unaff_EBP;\r\n  int unaff_ESI;\r\n  undefined4 *unaff_RDI;\r\n  byte in_CF;\r\n  uint uVar3;\r\n  undefined4 uVar7;\r\n  \r\n  uVar8 = (undefined3)((uint)in_EAX >> 8);\r\n  bVar5 = (char)in_EAX + *(char *)CONCAT44(in_register_00000004,in_EAX);\r\n  uVar7 = CONCAT31(uVar8,bVar5);\r\n  *unaff_RDI = *(undefined4 *)\r\n                (ulonglong)(unaff_ESI + *(int *)CONCAT44(in_register_00000004,in_EAX) + (uint)in_CF)\r\n  ;\r\n  *(byte *)CONCAT44(in_register_00000004,uVar7) =\r\n       *(char *)CONCAT44(in_register_00000004,uVar7) + bVar5;\r\n  *param_1 = *param_1 + bVar5;\r\n  bVar1 = *(byte *)CONCAT44(in_register_00000004,uVar7);\r\n  *(byte *)CONCAT44(in_register_00000004,uVar7) =\r\n       *(char *)CONCAT44(in_register_00000004,uVar7) + bVar5;\r\n  uVar4 = (uint)CARRY1(bVar1,bVar5);\r\n  uVar2 = *unaff_RBX;\r\n  uVar3 = *unaff_RBX;\r\n  *unaff_RBX = uVar3 + unaff_EBP + uVar4;\r\n  cVar6 = bVar5 + 0x20 + (CARRY4(uVar2,unaff_EBP) || CARRY4(uVar3 + unaff_EBP,uVar4));\r\n  uVar7 = CONCAT31(uVar8,cVar6);\r\n  *(char *)CONCAT44(in_register_00000004,uVar7) =\r\n       *(char *)CONCAT44(in_register_00000004,uVar7) + cVar6;\r\n  unaff_RDI[1] = uVar7;\r\n                    /* WARNING: Bad instruction - Truncating control flow here */\r\n  halt_baddata();\r\n}\r\n\r\n",
+    "signature": "void FUN_00444f30(char *param_1);"
+  },
+  "summary": "Pseudo-C for FUN_00444f30 from the Deep engine (47 lines).",
+  "confidence": "derived",
+  "authority": "original-files",
+  "environment": {
+    "clean_room": false,
+    "engine": "ghidra",
+    "engine_version": "12.1.4",
+    "host": "windows-x86_64"
+  },
+  "limitations": [
+    {
+      "code": "deep_engine",
+      "message": "the pseudo-C comes from the external Deep engine (Ghidra), not the original source"
+    },
+    {
+      "code": "made_on_demand",
+      "message": "Ghidra's analysis had no function here, so it made one starting at this address (for this session, never saved); its bounds come from following the code from there"
+    }
+  ],
+  "coverage": {
+    "status": "unknown"
+  },
+  "locations": [
+    {
+      "kind": "address",
+      "value": "0x444f30"
+    }
+  ],
+  "links": [],
+  "carries_target_content": true
+}

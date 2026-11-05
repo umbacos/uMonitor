@@ -7,7 +7,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $appRoot = Split-Path $PSScriptRoot -Parent
-if (-not $OutputDirectory) { $OutputDirectory = Split-Path $appRoot -Parent }
+if (-not $OutputDirectory) { $OutputDirectory = $appRoot }
 $utf8 = New-Object System.Text.UTF8Encoding($false)
 Push-Location -LiteralPath $appRoot
 try {
@@ -38,7 +38,8 @@ try {
     foreach ($file in @('README.md', 'PORTABLE.md', 'THIRD_PARTY_NOTICES.md', 'MECHANICS.md')) {
         Copy-Item -LiteralPath (Join-Path $appRoot $file) -Destination $stage
     }
-    Copy-Item -LiteralPath (Join-Path $appRoot 'config') -Destination $stage -Recurse
+    # Include the entire tree, including nested assets and hidden config files.
+    Copy-Item -LiteralPath (Join-Path $appRoot 'config') -Destination $stage -Recurse -Force
     $stageDocs = Join-Path $stage 'docs'
     New-Item -ItemType Directory -Path $stageDocs | Out-Null
     Copy-Item -LiteralPath (Join-Path $appRoot 'docs\screenshots') -Destination $stageDocs -Recurse
@@ -59,7 +60,7 @@ try {
         }
     }
     [IO.File]::WriteAllText((Join-Path $licenseDir 'dependencies.json'), (ConvertTo-Json -InputObject $inventory -Depth 5), $utf8)
-    $entries = @(Get-ChildItem -LiteralPath $stage -File -Recurse | Sort-Object FullName | ForEach-Object {
+    $entries = @(Get-ChildItem -LiteralPath $stage -File -Recurse -Force | Sort-Object FullName | ForEach-Object {
         [pscustomobject]@{ path=$_.FullName.Substring($stage.Length + 1).Replace('\','/'); bytes=$_.Length; sha256=(Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash.ToLowerInvariant() }
     })
     $manifest = [ordered]@{ product='uMonitor'; version=$version; platform='windows-x86_64'; files=$entries }
@@ -73,7 +74,15 @@ try {
     $archiveTime = [datetime]'2000-01-01T00:00:00Z'
     Get-ChildItem -LiteralPath $stage -Recurse -Force | ForEach-Object { $_.LastWriteTimeUtc = $archiveTime }
     (Get-Item -LiteralPath $stage).LastWriteTimeUtc = $archiveTime
-    Compress-Archive -LiteralPath $stage -DestinationPath $zip -CompressionLevel Optimal -Force
+    # Compress-Archive skips hidden files. ZipFile includes them and empty folders.
+    Add-Type -AssemblyName System.IO.Compression.FileSystem
+    $pendingZip = Join-Path $output ([IO.Path]::GetRandomFileName() + '.zip')
+    try {
+        [IO.Compression.ZipFile]::CreateFromDirectory($stage, $pendingZip, [IO.Compression.CompressionLevel]::Optimal, $true)
+        Move-Item -LiteralPath $pendingZip -Destination $zip -Force
+    } finally {
+        if (Test-Path -LiteralPath $pendingZip) { Remove-Item -LiteralPath $pendingZip -Force }
+    }
     $hash = (Get-FileHash -LiteralPath $zip -Algorithm SHA256).Hash.ToLowerInvariant()
     [IO.File]::WriteAllText(($zip + '.sha256'), ($hash + '  ' + (Split-Path $zip -Leaf) + "`n"), $utf8)
     Write-Output "Portable ZIP: $zip"

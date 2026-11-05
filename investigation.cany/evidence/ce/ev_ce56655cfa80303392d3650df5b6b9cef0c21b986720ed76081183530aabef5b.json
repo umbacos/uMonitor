@@ -1,0 +1,49 @@
+{
+  "id": "ev_ce56655cfa80303392d3650df5b6b9cef0c21b986720ed76081183530aabef5b",
+  "subject": {
+    "kind": "managed",
+    "sha256": "a980a69b634fe6cb3a20173293d23f5728855f41b62748cf6a4b5b9406f972ab",
+    "name": "UsbMonitor.exe"
+  },
+  "operation": "native_function_pseudocode",
+  "params": {
+    "function": "0x45fa64"
+  },
+  "result": {
+    "engine": "ghidra",
+    "entry": "0x45fa64",
+    "function": "FUN_0045fa64",
+    "pseudo_code": "\r\nint FUN_0045fa64(void)\r\n\r\n{\r\n  int *in_RAX;\r\n  \r\n  return (int)in_RAX + *in_RAX;\r\n}\r\n\r\n",
+    "signature": "int FUN_0045fa64(void);"
+  },
+  "summary": "Pseudo-C for FUN_0045fa64 from the Deep engine (9 lines).",
+  "confidence": "derived",
+  "authority": "original-files",
+  "environment": {
+    "clean_room": false,
+    "engine": "ghidra",
+    "engine_version": "12.1.4",
+    "host": "windows-x86_64"
+  },
+  "limitations": [
+    {
+      "code": "deep_engine",
+      "message": "the pseudo-C comes from the external Deep engine (Ghidra), not the original source"
+    },
+    {
+      "code": "made_on_demand",
+      "message": "Ghidra's analysis had no function here, so it made one starting at this address (for this session, never saved); its bounds come from following the code from there"
+    }
+  ],
+  "coverage": {
+    "status": "unknown"
+  },
+  "locations": [
+    {
+      "kind": "address",
+      "value": "0x45fa64"
+    }
+  ],
+  "links": [],
+  "carries_target_content": true
+}

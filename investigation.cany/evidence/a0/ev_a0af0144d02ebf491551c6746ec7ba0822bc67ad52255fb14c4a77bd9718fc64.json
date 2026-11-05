@@ -1,0 +1,49 @@
+{
+  "id": "ev_a0af0144d02ebf491551c6746ec7ba0822bc67ad52255fb14c4a77bd9718fc64",
+  "subject": {
+    "kind": "managed",
+    "sha256": "a980a69b634fe6cb3a20173293d23f5728855f41b62748cf6a4b5b9406f972ab",
+    "name": "UsbMonitor.exe"
+  },
+  "operation": "native_function_pseudocode",
+  "params": {
+    "function": "0x44d350"
+  },
+  "result": {
+    "engine": "ghidra",
+    "entry": "0x44d350",
+    "function": "FUN_0044d350",
+    "pseudo_code": "\r\n/* WARNING: Control flow encountered bad instruction data */\r\n\r\nvoid FUN_0044d350(undefined8 param_1,undefined2 param_2)\r\n\r\n{\r\n  char cVar1;\r\n  uint uVar2;\r\n  int *in_RAX;\r\n  char *pcVar3;\r\n  \r\n  uVar2 = (int)in_RAX + *in_RAX;\r\n  pcVar3 = (char *)(ulonglong)uVar2;\r\n  cVar1 = (char)uVar2;\r\n  *pcVar3 = *pcVar3 + cVar1;\r\n  *pcVar3 = *pcVar3 + cVar1;\r\n  *pcVar3 = *pcVar3 + cVar1;\r\n  out(param_2,uVar2);\r\n                    /* WARNING: Bad instruction - Truncating control flow here */\r\n  halt_baddata();\r\n}\r\n\r\n",
+    "signature": "void FUN_0044d350(undefined8 param_1,undefined2 param_2);"
+  },
+  "summary": "Pseudo-C for FUN_0044d350 from the Deep engine (22 lines).",
+  "confidence": "derived",
+  "authority": "original-files",
+  "environment": {
+    "clean_room": false,
+    "engine": "ghidra",
+    "engine_version": "12.1.4",
+    "host": "windows-x86_64"
+  },
+  "limitations": [
+    {
+      "code": "deep_engine",
+      "message": "the pseudo-C comes from the external Deep engine (Ghidra), not the original source"
+    },
+    {
+      "code": "made_on_demand",
+      "message": "Ghidra's analysis had no function here, so it made one starting at this address (for this session, never saved); its bounds come from following the code from there"
+    }
+  ],
+  "coverage": {
+    "status": "unknown"
+  },
+  "locations": [
+    {
+      "kind": "address",
+      "value": "0x44d350"
+    }
+  ],
+  "links": [],
+  "carries_target_content": true
+}

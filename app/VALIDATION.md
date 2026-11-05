@@ -1,5 +1,35 @@
 # Verification
 
+## Fresh original inspection and fixed text columns (2026-11-05)
+
+Opened the original main executable in Deep mode; completed three native name/settings/message searches, three native reference checks, and **40 individually awaited/read native pseudocode requests**. `evidence/deep-columns-audit.json` contains the full native responses, matching valid managed bodies, decoded strings, ABI metadata and **1,245 incoming managed references**. Validated all 40 distinct addresses and 48 cited ledger records. Native Ghidra output is invalid for CLR; a separate ILSpy C# request was refused by the tool's approval policy. The recovered behavior uses the valid managed instructions and token references. The original program was not executed.
+
+Corrected imported live text to preserve blank cells, cell margins and its saved origin. Recovered minimum widths are2 columns for usage/disk temperature/volume,3 for CPU power,5 for GPU memory/fans and4 including the network decimal point. The new regression first failed on the old implementation (leading offset0 instead of48) and passes after the correction; it checks leading/trailing blanks, two font sizes, selection resizing and JSON persistence. Existing raster fixtures include the recovered literal padding. Explicit precision overrides, unavailable readings and ordinary editor alignment remain covered.
+
+`cargo test --offline --locked`: **63 passed**. `cargo build --release --offline --locked` succeeds. `cargo fmt --manifest-path app/Cargo.toml --check` and `git diff --check` pass. Craft `rebuild_check` passes build, startup screenshot (**3450x2125**, visually reviewed), and **75 mechanics values (63 sourced,12 independent estimates)**. Report: `evidence/deep-columns-craft-check.json`; executable/evidence integrity summary: `evidence/deep-columns-validation.json`.
+
+Release executable: `target/release/uMonitor.exe`, **16,638,464 bytes**, SHA-256 **ab2c7133f99dd41b2f7cd6f517692b44e3c9e0d7d87acc726c6f458a403095c3**. The bundled sensor DLL is beside it. Craft also rebuilt `target/debug/uMonitor.exe`, SHA-256 **cdaa96eb7bb6f8018f12547f7660cf92621b670d90eab20e69079108988ae25d**. The existing portable archive was preserved. Physical hardware output, exact GDI+ pixels and original-app legacy-export acceptance remain unverified.
+
+## Single-instance launch (2026-11-05)
+
+Interactive Windows launches now probe a stable named mutex before UAC and atomically acquire it after elevation, before loading the session or starting workers. Duplicate launches show an informational "uMonitor is already running" dialog and exit. The guard stays alive through editor/worker shutdown and while minimized to the tray. Windows releases it on process exit, including exits that skip Rust destructors. Isolated screenshot and hardware-helper modes keep their existing behavior.
+
+`cargo test --offline --locked`: **62 passed**. New checks cover duplicate rejection, handle cleanup, eight simultaneous contenders with exactly one winner, cross-process exclusion, reopening after exit, and cleanup without destructors. `cargo build --offline --locked` and `cargo fmt --check` pass. Craft `rebuild_check` passes build, startup screenshot (**3450x2125**) and all **69 mechanics values**. Report: `evidence/single-instance-rebuild-check.json`. The desktop automation policy refused the separate interactive dialog check; no live dialog observation is claimed.
+
+## Current original-function inspection and rebuild (2026-11-05)
+
+Opened the original main executable in Deep mode. Three native string searches, three native reference checks and **39 sequential, individually awaited native pseudocode requests** completed. `evidence/deep-current-audit.json` contains all full native outputs, 39 matching managed IL bodies, decoded literals/keys, 1,239 incoming managed references and P/Invoke metadata. Native Ghidra output is invalid for this CLR assembly; documented behavior uses valid managed instructions. See the current section of `MECHANICS.md` for exact function/field addresses and formulas.
+
+Corrected imported glyph placement: punctuation, spaces and letters now use the saved interval, with no kerning. The new raster regression failed on the old implementation (`8.8` at half-size: width35 instead of45) and passes after the change. It checks six character combinations, three sizes, explicit spacing, saved JSON metrics and exact first/last glyph pixels. Normal editor text remains proportional.
+
+`cargo test --offline --locked`: **58 passed**. `cargo build --offline --locked`, `cargo fmt --check` and `git diff --check` pass. Craft `rebuild_check` passes build, startup screenshot (**3450x2125**) and **69 mechanics values (57 sourced, 12 estimates)**; the screenshot was visually reviewed. Report: `evidence/deep-current-craft-check.json`. Executable: `target/debug/uMonitor.exe`; SHA-256 **22d5fa3e1c08e1c3ed81a13b6ed31403e0d537575b9aab5a9d373f0ae43504ec**. Physical display output, original-app export acceptance and exact GDI+ raster equivalence remain unverified. This task rebuilt the application; the existing portable archive was preserved.
+
+## Administrator prompt on launch (2026-11-05)
+
+Interactive Windows launches, including `--tray` at sign-in, check the process token and request elevation with `ShellExecuteExW` and the `runas` verb before creating the editor or starting its workers. Already elevated processes continue directly; canceling UAC exits without opening the editor. Relaunch preserves the executable, working directory and UTF-16 arguments. Isolated screenshot and sensor-helper modes retain their existing diagnostic behavior; helpers started by the elevated editor inherit its permissions.
+
+`cargo build --offline --locked`, `cargo fmt --check` and all **57 tests** pass. The added regression round-trips startup flags, spaces, Unicode, empty arguments, embedded quotes and trailing backslashes through the Windows argument parser. Restored the four missing examples with `scripts/generate_examples.py` and regenerated the missing frequency fixture using the standard .NET math/string APIs in `evidence/cpu-frequency-fixtures.ps1` so the existing suite can compile. Craft `rebuild_check` passes build, startup screenshot (**3450 x 2125**, visually reviewed) and all **69 mechanics values**. Interactive approval/cancellation on the Windows secure desktop was not automated.
+
 ## Deep inspection and arc setting rebuild (2026-11-04)
 
 Opened the original `C:\Program Files\35inchENG\UsbMonitor.exe` in Deep mode, searched names/settings/messages, followed all native hits and managed call/field references, and completed **48 sequential, individually awaited/read `native_function_pseudocode` results**. Full responses, matching valid CLR bodies and **1,263 incoming references** are in `evidence/deep-arc-audit.json`. Native Ghidra lifting is invalid for CLR; the recovered behavior uses valid managed IL. The original executable was not run.

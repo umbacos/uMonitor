@@ -2,6 +2,52 @@
   "version": 1,
   "values": [
     {
+      "name": "legacy bar background mode",
+      "group": "charts",
+      "value": "barType0 restores theme artwork; other modes use backColor",
+      "source": "StatuBar RVA0x60590 VA0x460590 IL00d8..0105 and IL0247..02c7; ThemeConfig getter RVA0x62ba0 field040003cf; image composition0x10a38 -> setter0x2e754/getter0x2e808 field040001b8. ev_6182981093b885fe9e33e020a9362aaf9d1f9410f97540c758d52f7163fca80f; ev_947322eacbc638a52bea87faed1fb738367b6b7b26c52deaad7daa60d199a9c6; evidence/deep-build-audit.json. src/legacy.rs sets legacy_bar_image_background; src/render.rs retains underlying artwork. MECHANICS.md"
+    },
+    {
+      "name": "legacy usage volume and disk temperature text columns",
+      "group": "text",
+      "value": 2,
+      "unit": "characters",
+      "source": "UsbMonitor.exe managed evidence ev_e367ac3c94a18d03619ef56ae892b942a255907ae9d7c39a85030939e771aa73; evidence/deep-columns-audit.json; Controller RVA0x12418 IL0c6c..0c6f,0fd0..0fd3,1466..1469,1607..160a,177f..1782,1811..1814 uses PadLeft(2,x); src/original.rs padded_sensor_text, src/render.rs"
+    },
+    {
+      "name": "legacy CPU power text columns",
+      "group": "text",
+      "value": 3,
+      "unit": "characters",
+      "source": "UsbMonitor.exe managed evidence ev_e367ac3c94a18d03619ef56ae892b942a255907ae9d7c39a85030939e771aa73; evidence/deep-columns-audit.json; Controller RVA0x12418 IL0f1d..0f20 uses PadLeft(3,x); src/original.rs padded_sensor_text"
+    },
+    {
+      "name": "legacy GPU memory and fan text columns",
+      "group": "text",
+      "value": 5,
+      "unit": "characters",
+      "source": "UsbMonitor.exe managed evidence ev_e367ac3c94a18d03619ef56ae892b942a255907ae9d7c39a85030939e771aa73; evidence/deep-columns-audit.json; Controller RVA0x12418 IL0f58..0f5b,0f93..0f96,18b8..18bb uses PadLeft(5,x); src/original.rs padded_sensor_text"
+    },
+    {
+      "name": "legacy network text columns with decimal",
+      "group": "text",
+      "value": 4,
+      "unit": "characters",
+      "source": "UsbMonitor.exe managed evidence ev_e367ac3c94a18d03619ef56ae892b942a255907ae9d7c39a85030939e771aa73; evidence/deep-columns-audit.json; Controller RVA0x12418 IL0dd8..0de3 and1171..117c pads to3 then inserts decimal at index2; src/original.rs padded_sensor_text"
+    },
+    {
+      "name": "legacy padding glyph is blank",
+      "group": "text",
+      "value": "x padding occupies a fixed cell without drawing; represented as spaces",
+      "source": "UsbMonitor.exe managed evidence ev_e367ac3c94a18d03619ef56ae892b942a255907ae9d7c39a85030939e771aa73; evidence/deep-columns-audit.json; Glyph rasterizer RVA0x527c IL05f0..0640 skips DrawString for x; live caller0x500ec IL0611; original designer0x4f80c replaces x with8, while replacement preview shows live values"
+    },
+    {
+      "name": "legacy text cell origin and blank extent",
+      "group": "text",
+      "value": "start at saved layer origin; advance each cell by interval*size/baseSize+extraSpacing, retaining leading and trailing blanks",
+      "source": "UsbMonitor.exe managed evidence ev_e367ac3c94a18d03619ef56ae892b942a255907ae9d7c39a85030939e771aa73; evidence/deep-columns-audit.json; Live TItem RVA0x500ec IL01ea..01f7; FontConfig interval getter0x5190c field04000346; preview0x4f80c IL0737..0751; src/render.rs text_line and paint_value; editor size/extraSpacing scaling is a replacement feature"
+    },
+    {
       "name": "legacy arc gap period",
       "group": "charts",
       "value": 4,
@@ -394,8 +440,8 @@
     {
       "name": "legacy glyph advance",
       "group": "text",
-      "value": "posX + i * interval; interval may be smaller than W; field bounds W + (strLen-1) * interval",
-      "source": "TItem RVA 0x4f80c IL_0744..0751 and 0x500ec IL_01ea..01f7 -> getter0x5190c field0x04000346; ev_cb53ffbf94b43b60de319af8ae6e17a5aa04a5a3fc368d251494ae1439fb5399"
+      "value": "posX + i * interval for every character, including punctuation and spaces; no kerning; field bounds W + (strLen-1) * interval",
+      "source": "TItem RVA0x4f80c / VA0x44f80c token060002f1 IL0737..0751; runtime RVA0x500ec / VA0x4500ec token060002f2 IL01ea..01f7 and IL0245..025c. Both call FontConfig.interval getter RVA0x5190c token06000301, returning the backing field at IL009c..00a2. ev_e367ac3c94a18d03619ef56ae892b942a255907ae9d7c39a85030939e771aa73; evidence/deep-current-audit.json; src/render.rs text_line applies fixed advances to every imported glyph."
     },
     {
       "name": "legacy text overflow",

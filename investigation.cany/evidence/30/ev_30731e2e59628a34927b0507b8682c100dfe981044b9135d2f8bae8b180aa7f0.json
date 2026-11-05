@@ -1,0 +1,49 @@
+{
+  "id": "ev_30731e2e59628a34927b0507b8682c100dfe981044b9135d2f8bae8b180aa7f0",
+  "subject": {
+    "kind": "managed",
+    "sha256": "a980a69b634fe6cb3a20173293d23f5728855f41b62748cf6a4b5b9406f972ab",
+    "name": "UsbMonitor.exe"
+  },
+  "operation": "native_function_pseudocode",
+  "params": {
+    "function": "0x40cb28"
+  },
+  "result": {
+    "engine": "ghidra",
+    "entry": "0x40cb28",
+    "function": "FUN_0040cb28",
+    "pseudo_code": "\r\n/* WARNING: Control flow encountered bad instruction data */\r\n\r\nvoid FUN_0040cb28(char *param_1,byte *param_2)\r\n\r\n{\r\n  byte *pbVar1;\r\n  byte bVar2;\r\n  byte bVar3;\r\n  byte *in_RAX;\r\n  char *pcVar4;\r\n  byte bVar5;\r\n  char cVar6;\r\n  undefined6 uVar7;\r\n  byte bVar8;\r\n  uint uVar9;\r\n  char unaff_BL;\r\n  char cVar10;\r\n  undefined7 unaff_00000019;\r\n  int unaff_ESI;\r\n  uint *puVar11;\r\n  byte *unaff_RDI;\r\n  byte in_CF;\r\n  char *unaff_retaddr;\r\n  char *pcStackX_8;\r\n  byte *pbStackX_10;\r\n  char *pcStackX_18;\r\n  uint uStackX_20;\r\n  \r\n  uVar7 = (undefined6)((ulonglong)param_1 >> 0x10);\r\n  puVar11 = (uint *)(ulonglong)(unaff_ESI + *(int *)in_RAX + (uint)in_CF);\r\n  bVar3 = (byte)in_RAX;\r\n  *in_RAX = *in_RAX | bVar3;\r\n  *in_RAX = *in_RAX + bVar3;\r\n  bVar2 = *in_RAX;\r\n  pcVar4 = (char *)CONCAT71((int7)((ulonglong)in_RAX >> 8),bVar3 - bVar2);\r\n  bVar8 = (byte)param_2;\r\n  *param_1 = *param_1 + bVar8;\r\n  cVar6 = (char)((ulonglong)param_1 >> 8) + unaff_RDI[-0x27];\r\n  *pcVar4 = *pcVar4 + (bVar3 - bVar2);\r\n  bVar5 = (byte)param_1 | *param_2;\r\n  *unaff_retaddr = *unaff_retaddr + (char)unaff_retaddr;\r\n  cVar10 = unaff_BL + bVar8 * '\\x02';\r\n  *(byte *)CONCAT62(uVar7,CONCAT11(cVar6,bVar5)) =\r\n       *(byte *)CONCAT62(uVar7,CONCAT11(cVar6,bVar5)) & (byte)pcStackX_8;\r\n  *pcStackX_8 = *pcStackX_8 + (byte)pcStackX_8;\r\n  *(byte *)CONCAT71(unaff_00000019,cVar10) = *(byte *)CONCAT71(unaff_00000019,cVar10) & bVar8;\r\n  bVar2 = *pbStackX_10;\r\n  bVar3 = (byte)pbStackX_10;\r\n  *pbStackX_10 = *pbStackX_10 + bVar3;\r\n  uVar9 = *(uint *)(pbStackX_10 + 0x20);\r\n  *(uint *)(pbStackX_10 + 0x20) =\r\n       (uint)(CONCAT14(CARRY1(bVar2,bVar3),uVar9) >> (bVar5 & 0x1f)) |\r\n       uVar9 << 0x21 - (bVar5 & 0x1f);\r\n  *pbStackX_10 = *pbStackX_10 + bVar3;\r\n  *unaff_RDI = *unaff_RDI & (byte)pcStackX_18;\r\n  *pcStackX_18 = *pcStackX_18 + (byte)pcStackX_18;\r\n  uVar9 = (uint)param_2 | *puVar11;\r\n  pcVar4 = (char *)((ulonglong)(uStackX_20 & 0x25333217) | 6);\r\n  *(byte *)puVar11 = (byte)*puVar11 | (byte)pcVar4;\r\n  pbVar1 = (byte *)((ulonglong)uVar9 + 0xff2025);\r\n  *pbVar1 = *pbVar1 | (byte)uVar9;\r\n  *pcVar4 = *pcVar4 + (byte)pcVar4;\r\n                    /* WARNING: Bad instruction - Truncating control flow here */\r\n  halt_baddata();\r\n}\r\n\r\n",
+    "signature": "void FUN_0040cb28(char *param_1,byte *param_2);"
+  },
+  "summary": "Pseudo-C for FUN_0040cb28 from the Deep engine (67 lines).",
+  "confidence": "derived",
+  "authority": "original-files",
+  "environment": {
+    "clean_room": false,
+    "engine": "ghidra",
+    "engine_version": "12.1.4",
+    "host": "windows-x86_64"
+  },
+  "limitations": [
+    {
+      "code": "deep_engine",
+      "message": "the pseudo-C comes from the external Deep engine (Ghidra), not the original source"
+    },
+    {
+      "code": "made_on_demand",
+      "message": "Ghidra's analysis had no function here, so it made one starting at this address (for this session, never saved); its bounds come from following the code from there"
+    }
+  ],
+  "coverage": {
+    "status": "unknown"
+  },
+  "locations": [
+    {
+      "kind": "address",
+      "value": "0x40cb28"
+    }
+  ],
+  "links": [],
+  "carries_target_content": true
+}

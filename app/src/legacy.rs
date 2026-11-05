@@ -524,6 +524,10 @@ pub fn import(bytes: &[u8]) -> Result<Project, String> {
                 base_size: w.size,
             });
             if w.kind == Kind::Bar {
+                // StatuBar RVA0x60590 IL_00d8..0105,0247..02c7: mode0
+                // restores the unfilled rectangle from the composed screen.
+                // ThemeConfig getter0x62ba0 reads field0x040003cf (barType).
+                w.legacy_bar_image_background = r.number(root, "barType") == 0.;
                 w.w = r.number(n, "length").max(1.);
                 if w.binding == "cpu.frequency" {
                     // System bindings use GHz; original CpuFreq bars use 8000 MHz.
@@ -817,6 +821,114 @@ pub fn export(p: &Project, d: &DataState) -> Result<Vec<u8>, String> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn imported_bar_restores_theme_artwork_when_bar_type_is_zero() {
+        // Original StatuBar RVA0x60590 uses the saved screen image for the
+        // unfilled area when ThemeConfig.barType==0; other modes use backColor.
+        for bar_type in [0, 1] {
+            let mut file = Writer::new();
+            file.u8(0);
+            for value in [1, -1, 1, 0] {
+                file.i32(value);
+            }
+            file.library(2, "usb_hid");
+            file.class(
+                1,
+                "usb_hid.ThemeConfig",
+                &[("barType", 0, "", 8), ("barList", 2, "", 0)],
+                2,
+            );
+            file.i32(bar_type);
+            file.class(2, "List", &[("_size", 0, "", 8), ("_items", 5, "", 0)], 0);
+            file.i32(1);
+            file.u8(16);
+            file.i32(3);
+            file.i32(1);
+            file.class(
+                4,
+                "usb_hid.StatuBar",
+                &[
+                    ("itemName", 1, "", 0),
+                    ("length", 0, "", 8),
+                    ("height", 0, "", 8),
+                    ("enabled", 0, "", 1),
+                ],
+                2,
+            );
+            file.string("CpuLoad");
+            file.i32(150);
+            file.i32(13);
+            file.u8(1);
+            file.u8(11);
+            let mut project = import(&file.b).unwrap();
+            let bar = &mut project.widgets[0];
+            bar.x = 20.;
+            bar.y = 30.;
+            bar.color = [250, 20, 30, 255];
+            bar.background = [1, 2, 3, 255];
+            let mut artwork = Widget::new(2, Kind::Image, 0., 0.);
+            artwork.w = 480.;
+            artwork.h = 320.;
+            let image = image::RgbaImage::from_fn(480, 320, |x, y| {
+                image::Rgba([x as u8, y as u8, 80, 255])
+            });
+            artwork.image = Some(STANDARD.encode(render::png(&image).unwrap()));
+            project.widgets.insert(0, artwork);
+            let mut data = DataState::default();
+            let mut cache = render::FrameCache::default();
+            for value in [50, 10, 99, 0] {
+                data.values.insert("cpu.usage".into(), value.to_string());
+                let frame = render::frame(&project, &data);
+                assert_eq!(cache.frame(&project, &data), frame);
+                let extent = (value as f64 * 0.01 * 150.).trunc() as u32;
+                for local_x in 0..150 {
+                    let (x, y) = (20 + local_x, 36);
+                    let expected = if local_x < extent {
+                        [250, 20, 30, 255]
+                    } else if bar_type == 0 {
+                        image.get_pixel(x, y).0
+                    } else {
+                        [1, 2, 3, 255]
+                    };
+                    assert_eq!(
+                        frame.get_pixel(x, y).0,
+                        expected,
+                        "mode {bar_type}, value {value}, x {local_x}"
+                    );
+                }
+            }
+            let restored: Project =
+                serde_json::from_slice(&serde_json::to_vec(&project).unwrap()).unwrap();
+            assert_eq!(
+                restored.widgets[1].legacy_bar_image_background,
+                bar_type == 0
+            );
+            assert_eq!(restored.widgets[1].background, [1, 2, 3, 255]);
+            assert_eq!(
+                render::frame(&restored, &data),
+                render::frame(&project, &data)
+            );
+            let mut cache = render::FrameCache::default();
+            assert_eq!(cache.frame(&project, &data), render::frame(&project, &data));
+            data.values.insert("cpu.usage".into(), "50".into());
+            assert_eq!(cache.frame(&project, &data), render::frame(&project, &data));
+            let snapshot = export(&project, &data).unwrap();
+            assert_eq!(
+                import(&snapshot).unwrap().widgets[1].legacy_bar_image_background,
+                bar_type == 0
+            );
+            let mut old_json = serde_json::to_value(&project.widgets[1]).unwrap();
+            old_json
+                .as_object_mut()
+                .unwrap()
+                .remove("legacy_bar_image_background");
+            assert!(
+                !serde_json::from_value::<Widget>(old_json)
+                    .unwrap()
+                    .legacy_bar_image_background
+            );
+        }
+    }
     #[test]
     fn arc_interval_setting_survives_nrbf_and_json_imports() {
         // A real NRBF record graph exercises field names and boolean decoding,

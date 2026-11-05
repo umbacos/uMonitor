@@ -1,0 +1,49 @@
+{
+  "id": "ev_36a2ec2c214a1660e9af4a6b714b920fed6ae85f8abc9c84ba1c5b86cd3ad6c5",
+  "subject": {
+    "kind": "managed",
+    "sha256": "a980a69b634fe6cb3a20173293d23f5728855f41b62748cf6a4b5b9406f972ab",
+    "name": "UsbMonitor.exe"
+  },
+  "operation": "native_function_pseudocode",
+  "params": {
+    "function": "0x40e49c"
+  },
+  "result": {
+    "engine": "ghidra",
+    "entry": "0x40e49c",
+    "function": "FUN_0040e49c",
+    "pseudo_code": "\r\n/* WARNING: Control flow encountered bad instruction data */\r\n/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */\r\n\r\nvoid FUN_0040e49c(char *param_1)\r\n\r\n{\r\n  byte bVar1;\r\n  byte bVar2;\r\n  char cVar3;\r\n  uint uVar4;\r\n  char *in_RAX;\r\n  byte *pbVar5;\r\n  char *pcVar6;\r\n  \r\n  bVar2 = (char)in_RAX + *in_RAX;\r\n  pbVar5 = (byte *)CONCAT71((int7)((ulonglong)in_RAX >> 8),bVar2);\r\n  bVar1 = *pbVar5;\r\n  _DAT_2011000001000000 = (int)pbVar5;\r\n  *pbVar5 = *pbVar5 + bVar2;\r\n  DAT_4840e4b8 = DAT_4840e4b8 + -1;\r\n  uVar4 = ((int)pbVar5 + -0xefe) - (uint)CARRY1(bVar1,bVar2);\r\n  pcVar6 = (char *)(ulonglong)uVar4;\r\n  DAT_4840e4c8 = DAT_4840e4c8 + -1;\r\n  cVar3 = (char)uVar4;\r\n  *pcVar6 = *pcVar6 + cVar3;\r\n  *pcVar6 = *pcVar6 + cVar3;\r\n  *pcVar6 = *pcVar6 + cVar3;\r\n  *param_1 = *param_1 + cVar3;\r\n  *pcVar6 = *pcVar6 + cVar3;\r\n  *pcVar6 = *pcVar6 + cVar3;\r\n  *pcVar6 = *pcVar6 + cVar3;\r\n  *pcVar6 = *pcVar6 + cVar3;\r\n  *pcVar6 = *pcVar6 + cVar3;\r\n                    /* WARNING: Bad instruction - Truncating control flow here */\r\n  halt_baddata();\r\n}\r\n\r\n",
+    "signature": "void FUN_0040e49c(char *param_1);"
+  },
+  "summary": "Pseudo-C for FUN_0040e49c from the Deep engine (38 lines).",
+  "confidence": "derived",
+  "authority": "original-files",
+  "environment": {
+    "clean_room": false,
+    "engine": "ghidra",
+    "engine_version": "12.1.4",
+    "host": "windows-x86_64"
+  },
+  "limitations": [
+    {
+      "code": "deep_engine",
+      "message": "the pseudo-C comes from the external Deep engine (Ghidra), not the original source"
+    },
+    {
+      "code": "made_on_demand",
+      "message": "Ghidra's analysis had no function here, so it made one starting at this address (for this session, never saved); its bounds come from following the code from there"
+    }
+  ],
+  "coverage": {
+    "status": "unknown"
+  },
+  "locations": [
+    {
+      "kind": "address",
+      "value": "0x40e49c"
+    }
+  ],
+  "links": [],
+  "carries_target_content": true
+}
