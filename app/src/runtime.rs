@@ -67,6 +67,8 @@ pub fn detect_port(ports: &[serialport::SerialPortInfo], preferred: &str) -> Opt
         return ports
             .iter()
             .find(|p| p.port_name == preferred)
+            // The FTDI adapter belongs to the independent uMonitorX2 application.
+            .filter(|p| !matches!(&p.port_type, serialport::SerialPortType::UsbPort(info) if info.vid == 0x0403 && info.pid == 0x6001))
             .map(|p| p.port_name.clone());
     }
     let matches: Vec<_> = ports
@@ -901,6 +903,23 @@ fn nvidia_readings(line: &str, d: &mut DataState) {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn original_monitor_does_not_claim_x2_ftdi_adapter() {
+        use serialport::{SerialPortInfo, SerialPortType, UsbPortInfo};
+        let port = |name: &str, vid, pid| SerialPortInfo {
+            port_name: name.into(),
+            port_type: SerialPortType::UsbPort(UsbPortInfo {
+                vid,
+                pid,
+                serial_number: None,
+                manufacturer: None,
+                product: None,
+            }),
+        };
+        let ports = vec![port("COM3", 0x1a86, 0x5722), port("COM4", 0x0403, 0x6001)];
+        assert_eq!(detect_port(&ports, ""), Some("COM3".into()));
+        assert_eq!(detect_port(&ports, "COM4"), None);
+    }
     #[test]
     fn byte_rates_reach_original_widgets_without_unit_or_precision_loss() {
         let mut d = DataState::default();

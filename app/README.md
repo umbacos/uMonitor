@@ -2,6 +2,10 @@
 
 **Design a live dashboard for a 480 × 320 USB display, directly on Windows.**
 
+This application controls only the original 3.5-inch USB monitor. The Neptune
+TJC display is handled by the independent **uMonitorX2** application; both can
+run in parallel. The FTDI adapter for the X2 is excluded from this app's ports.
+
 uMonitor is a visual dashboard editor for system readings, weather, stock quotes, Home Assistant and your own HTTP/HTTPS JSON feeds. Arrange widgets on a landscape or portrait canvas, preview the result, and upload it to a compatible serial-connected display. No coding is needed to build a dashboard.
 
 ![uMonitor design editor showing a landscape hardware dashboard](docs/screenshots/editor.png)

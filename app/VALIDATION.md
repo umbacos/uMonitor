@@ -1,3 +1,15 @@
+# Independent display applications — 6 November 2026
+
+uMonitor retains only the original 3.5-inch backend. The prior combined TJC
+integration was moved to a standalone uMonitorX2 source tree. This app excludes
+the FTDI X2 adapter even when its COM port is selected explicitly. The remaining
+editor, rendering and original protocol behavior are unchanged. 65 automated
+tests pass, including a regression preventing this app claiming COM4/FTDI.
+The X2 app has its own session, credentials, startup value, icon and Windows
+instance guard. Separate processes successfully opened COM3 and COM4 together.
+The two portable builds are packaged and verified separately. Craft rebuild_check
+is unavailable in the current tool/CLI environment; no new Craft result is claimed.
+
 # Verification
 
 ## Fresh requested Deep-mode audit (2026-11-05)
