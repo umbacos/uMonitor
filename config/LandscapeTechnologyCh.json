@@ -2674,7 +2674,7 @@
       "id": 3,
       "name": "Meteo Google",
       "kind": "Json",
-      "url": "https://weather.googleapis.com/v1/forecast/days:lookup?key=AIzaSyAAfPnUOsEigg_Rhv9HU_GwE7LX3eGbOH8&location.latitude=44.493810&location.longitude=11.338750",
+      "url": "https://weather.googleapis.com/v1/forecast/days:lookup?key=YOUR_GOOGLE_API HERE&location.latitude=44.493810&location.longitude=11.338750",
       "auth": "Bearer",
       "credential_id": "18e4d0643806e7d4-3",
       "interval": 900,
