@@ -1,0 +1,6 @@
+/target/
+/evidence/
+/investigation.cany/
+/dist/
+__pycache__/
+*.pyc

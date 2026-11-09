@@ -1,0 +1,142 @@
+[
+    {
+        "MHz":  0,
+        "Divided":  0,
+        "Rounded":  0,
+        "Scaled":  0,
+        "Text":  "0.0"
+    },
+    {
+        "MHz":  1,
+        "Divided":  0.0001,
+        "Rounded":  0,
+        "Scaled":  0,
+        "Text":  "0.0"
+    },
+    {
+        "MHz":  49,
+        "Divided":  0.0049,
+        "Rounded":  0,
+        "Scaled":  0,
+        "Text":  "0.0"
+    },
+    {
+        "MHz":  50,
+        "Divided":  0.005,
+        "Rounded":  0,
+        "Scaled":  0,
+        "Text":  "0.0"
+    },
+    {
+        "MHz":  51,
+        "Divided":  0.0051,
+        "Rounded":  0.01,
+        "Scaled":  1,
+        "Text":  "0.1"
+    },
+    {
+        "MHz":  100,
+        "Divided":  0.01,
+        "Rounded":  0.01,
+        "Scaled":  1,
+        "Text":  "0.1"
+    },
+    {
+        "MHz":  950,
+        "Divided":  0.095,
+        "Rounded":  0.1,
+        "Scaled":  10,
+        "Text":  "1.0"
+    },
+    {
+        "MHz":  1000,
+        "Divided":  0.1,
+        "Rounded":  0.1,
+        "Scaled":  10,
+        "Text":  "1.0"
+    },
+    {
+        "MHz":  1050,
+        "Divided":  0.105,
+        "Rounded":  0.1,
+        "Scaled":  10,
+        "Text":  "1.0"
+    },
+    {
+        "MHz":  1150,
+        "Divided":  0.115,
+        "Rounded":  0.12,
+        "Scaled":  12,
+        "Text":  "1.2"
+    },
+    {
+        "MHz":  2800,
+        "Divided":  0.28,
+        "Rounded":  0.28,
+        "Scaled":  28.000000000000004,
+        "Text":  "2.8"
+    },
+    {
+        "MHz":  2850,
+        "Divided":  0.285,
+        "Rounded":  0.28,
+        "Scaled":  28.000000000000004,
+        "Text":  "2.8"
+    },
+    {
+        "MHz":  2900,
+        "Divided":  0.29,
+        "Rounded":  0.29,
+        "Scaled":  28.999999999999996,
+        "Text":  "2.8"
+    },
+    {
+        "MHz":  2950,
+        "Divided":  0.295,
+        "Rounded":  0.3,
+        "Scaled":  30,
+        "Text":  "3.0"
+    },
+    {
+        "MHz":  3000,
+        "Divided":  0.3,
+        "Rounded":  0.3,
+        "Scaled":  30,
+        "Text":  "3.0"
+    },
+    {
+        "MHz":  4000,
+        "Divided":  0.4,
+        "Rounded":  0.4,
+        "Scaled":  40,
+        "Text":  "4.0"
+    },
+    {
+        "MHz":  5000,
+        "Divided":  0.5,
+        "Rounded":  0.5,
+        "Scaled":  50,
+        "Text":  "5.0"
+    },
+    {
+        "MHz":  8000,
+        "Divided":  0.8,
+        "Rounded":  0.8,
+        "Scaled":  80,
+        "Text":  "8.0"
+    },
+    {
+        "MHz":  10000,
+        "Divided":  1,
+        "Rounded":  1,
+        "Scaled":  100,
+        "Text":  "1.00"
+    },
+    {
+        "MHz":  12500,
+        "Divided":  1.25,
+        "Rounded":  1.25,
+        "Scaled":  125,
+        "Text":  "1.25"
+    }
+]
